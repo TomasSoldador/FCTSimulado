@@ -1,0 +1,16 @@
+como começo o programa dar:
+   git pull
+
+quando termino dar:
+   git add -u
+
+   se quiser ver o que foi adicionado ao commit:
+      git status
+
+   git commit -m "titulo"
+
+   git push
+
+
+ativar o debug:
+   $env:FLASK_DEBUG="1"
