@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Gestão de Estagios{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/css/forms.css">
+{% endblock %}
+{% block titulo %}Editar Turmas{% endblock %}
+{% block content %}
+<div class="conteiner">
+   <section>
+      {% if mensagem %}
+         <div id="mensagem" class="alert alert-warning escondido" role="alert">
+            {{ mensagem }}
+         </div>
+      {% endif %}
+      <div class="form-box">
+            <form action="{{ url_for('Blueprint_turma.editar_turma', turma_id=turma.id) }}" method="POST">
+               <div class="inputbox">
+                  <input name="turma" type="number" maxlength="20" value="{{numero}}" required>
+                  <label for="">Turma:</label>
+               </div>
+               <div class="botoes">
+                  <div class="botao">
+                     <button class="button" type="submit" value="submit">Gravar</button>
+                  </div>
+                  <div class="botao">
+                     <a href="{{ url_for('Blueprint_turma.tabela_turmas') }}" class="button">Cancelar</a>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </section>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="../../static/js/aviso_existente.js"></script>
+{% endblock %}

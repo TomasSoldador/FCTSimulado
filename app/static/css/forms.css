@@ -1,0 +1,203 @@
+section {
+   display: flex;
+   justify-content: center;
+}
+
+#mensagem {
+   font-family: 'Poppins', sans-serif;
+   background-color: #FFCA00;
+   padding: 10px;
+   position: absolute;
+   text-align: center;
+   font-weight: bolder;
+   border-radius: 20px;
+   width: 50%;
+}
+
+.escondido {
+   opacity: 0;
+   transform: translateY(-100%); 
+   transition: all 0.3s ease-in-out;
+}
+
+.visivel {
+   opacity: 1;
+   transform: translateY(0);
+   font-weight: bolder;
+}
+
+.form-box {
+   z-index: 1;
+   margin-top: 40px;
+   position: relative;
+   width: 700px;
+   justify-content: space-between;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.combo-box {
+   position: relative;
+   display: inline-block;
+   width: calc(29% - 10px);
+}
+
+.combo-box label {
+   font-weight: bold;
+   margin-left: 4px;
+   color: #fff;
+}
+
+select option {
+   color: black;
+}
+
+.combo-box select {
+   width: 100%;
+   padding: 0.5em;
+   border: none;
+   background-color: transparent;
+   color: #fff;
+   font-size: 1em;
+   line-height: 1.4;
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+}
+
+.combo-box::after {
+   content: "";
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   height: 2px;
+   background-color: #fff;
+}
+
+#InputCodigoPostal {
+   margin-right: 10px;
+   width: 38%;
+   display: inline-block;
+}
+
+#InputLocalidade {
+   width: 58%;
+   display: inline-block;
+}
+
+.inputbox {
+   position: relative;
+   margin-top: 25px;
+   width: 590px;
+   border-bottom: 2px solid #fff;
+}
+
+.inputbox input {
+   width: 100%;
+   height: 50px;
+   background: transparent;
+   border: none;
+   outline: none;
+   font-size: 1em;
+   padding: 0 35px 0 5px;
+   color: #fff;
+}
+
+input[type=number] {
+   -webkit-appearance: none; /* Remove as setas no Safari e Chrome */
+   -moz-appearance: textfield; /* Remove as setas no Firefox */
+   appearance: textfield; /* Remove as setas no Edge e IE */
+}
+input[type=number]::-webkit-inner-spin-button {
+   -webkit-appearance: none; /* Remove as setas no Safari e Chrome */
+}
+input[type=number]::-moz-number-spin-box {
+   -moz-appearance: none; /* Remove as setas no Firefox */
+}
+
+.inputbox label {
+   font-weight: bold;
+   position: absolute;
+   top: 50%;
+   left: 5px;
+   margin-left: 1px;
+   transform: translateY(-50%);
+   color: #fff;
+   font-size: 1em;
+   pointer-events: none;
+   transition: .5s;
+}
+
+input:focus~label,
+input:valid~label {
+   top: -5px;
+}
+
+.botoes {
+   display: flex;
+   justify-content: center;
+   margin-top: 10px;
+}
+
+.button {
+   display: inline-block;
+   padding: .6rem .9rem;
+   background: #0ef;
+   border-radius: 4rem;
+   box-shadow: 0 0 .5rem #0ef;
+   font-size: 1rem;
+   color: #323946;
+   letter-spacing: .1rem;
+   font-weight: 600;
+   transition: .5s ease;
+   text-decoration: none;
+   border: none;
+}
+
+.button:first-child {
+   margin-right: 20px;
+}
+
+.button:hover{
+   box-shadow: none;
+}
+
+
+
+@media (max-width: 768px) {
+   .form-box {
+      flex-direction: column;
+      width: 100%;
+   }
+
+   #mensagem {
+      flex-direction: column;
+      width: 90%;
+   }
+
+   .inputbox {
+      width: 100%;
+   }
+
+   .combo-box {
+      width: 100%;
+      margin-bottom: 10px;
+   }
+
+   #InputCodigoPostal {
+      margin-right: 0;
+      margin-bottom: 10px ;
+      width: 100% ;
+   }
+
+   #InputLocalidade {
+      width: 100% ;
+   }
+
+   #datas {
+      margin-right: 0;
+      width: 100%;
+   }
+}

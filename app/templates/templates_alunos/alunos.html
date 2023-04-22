@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Gestão de Estagios{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/css/principais.css">
+{% endblock %}
+{% block titulo %}Alunos{% endblock %}
+{% block content %}
+<div class="container">
+   {% if alunos|length == 0 %}
+      <p>Não há alunos</p>
+      <div class="botao_sem_tabela">
+         <a href="Novo_Aluno" class="button">
+            <ion-icon name="person-add-outline" id="icons"></ion-icon><span>Novo aluno</span></a>
+      </div>
+      <div class="avisos_container">
+         {% if turmas|length == 0 %}
+            <a href="Nova_Turma" class="aviso_turmas">
+               <p>AVISO: </p>
+               <p>Não existe uma turma para adicionar alunos</p>
+               <p>Clique aqui para adicionar</p>
+            </a>
+         {% endif %}
+      </div>
+   {% else %}
+      <div class="barra_tarefas">
+         <div class="botao_com_tabela">
+            <a href="Novo_Aluno" class="button"><ion-icon name="person-add-outline" id="icons"></ion-icon><span>Novo aluno</span></a>
+         </div>
+         <div class="combo-box" style="width: 300px !important;">
+            <label>Turma:</label>
+            <select name="turmas" id="combobox">
+               <option value="todos">selecione a turma</option>
+               {% for listaturmas in turmas %}
+               {% if listaturmas.descricao == turmaselecionada %}
+               <option value="{{listaturmas.descricao}}"> {{listaturmas.descricao}} </option>
+               {% else %}
+               <option value="{{listaturmas.descricao}}"> {{listaturmas.descricao}} </option>
+               {% endif %}
+               {% endfor %}
+            </select>
+         </div>
+      </div>
+      <p id= "frase">Não ha alunos nesta turma</p>
+      <div class="conteudo">
+         <table id="tabela-alunos">
+            <thead>
+               <tr>
+                  <th scope="col">Nr</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Nome abreviado</th>
+                  <th scope="col">Morada</th>
+                  <th scope="col">Cód. postal</th>
+                  <th scope="col">Cartão cidadão</th>
+                  <th scope="col">NIF</th>
+                  <th scope="col"></th>
+               </tr>
+            </thead>
+            <tbody>
+            </tbody>
+         </table>
+      </div>
+   {% endif %}
+</div>
+{% endblock %}
+{% block js %}
+<script src="../../static/js/Alunos.js"></script>
+{% endblock %}

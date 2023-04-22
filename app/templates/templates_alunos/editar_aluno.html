@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Gestão de Estagios{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/css/forms.css">
+{% endblock %}
+{% block titulo %}Novo Aluno{% endblock %}
+{% block content %}
+<div class="conteiner">
+   <section>
+      {% if mensagem %}
+         <div id="mensagem" class="alert alert-warning escondido" role="alert">
+            {{ mensagem }}
+         </div>
+      {% endif %}
+      <div class="form-box">
+         <form action="{{ url_for('Blueprint_aluno.editar_alunos', aluno_id=aluno.id) }}" method="POST">
+            <input name="form_type" value="escolha2" style="display: none;">
+            <div class="combo-box">
+               <label>Turma</label>
+               <select name="turmas">
+                  {% if turmas|length == 0 %}
+                  <option>Não há turmas</option>
+                  {% else %}
+                  {% for listaturmas in turmas %}
+                  {% if listaturmas.descricao == turmaEdit %}
+                  <option value="{{listaturmas.descricao}}" selected> {{listaturmas.descricao}} </option>
+                  {% else %}
+                  <option value="{{listaturmas.descricao}}"> {{listaturmas.descricao}} </option>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+               </select>
+            </div>
+            <div class="inputbox">
+               <input name=numero type="number" value="{{numero}}" max="999999" required
+                  oninvalid="this.setCustomValidity('Por favor, digite um número de até 6 dígitos.')"
+                  oninput="limitarInput3(this)">
+               <label for="">Numero</label>
+            </div>
+            <div class="inputbox">
+               <input name=Nome type="text" value="{{aluno.nome}}" maxlength="100" required>
+               <label for="">Nome</label>
+            </div>
+            <div class="inputbox">
+               <input name=Nome_Abreviado type="text" value="{{aluno.nome_abreviado}}" required>
+               <label for="">Nome Abreviado</label>
+            </div>
+            <div class="inputbox">
+               <input name=morada type="text" value="{{aluno.morada}}" required>
+               <label for="">Morada:</label>
+            </div>
+            <div class="inputbox" id="InputCodigoPostal">
+               <input name=codigo_postal type="text" value="{{codigoPostal}}" pattern="\d{4}-?\d{3}" maxlength="8"
+                  required title="Por favor, digite o codigo postal corretamente." oninput="formatar(this)">
+               <label for="">Codigo postal</label>
+            </div>
+            <div class="inputbox" id="InputLocalidade">
+               <input name=localidade type="text" value="{{localidade}}" required>
+               <label for="">Localidade</label>
+            </div>
+            <div class="inputbox">
+               <input name=cartao_cidadao min="00000000" value="{{aluno.cartao_cidadao}}" type="number" required
+                  oninvalid="this.setCustomValidity('Por favor, digite um número de até 8 dígitos.')"
+                  oninput="limitarInput(this)">
+               <label for="">Cartao cidadao</label>
+            </div>
+            <div class="inputbox">
+               <input name=validade_cc min="{{today}}" max="9999-12-31" value="{{aluno.validade_cc}}" type="date">
+               <label for="">Validade CC</label>
+            </div>
+            <div class="inputbox">
+               <input name=nif min="1" max="999999999" type="number" value="{{aluno.nif}}" required
+                  oninvalid="this.setCustomValidity('Por favor, digite um número de até 9 dígitos.')"
+                  oninput="limitarInput2(this)">
+               <label for="">NIF</label>
+            </div>
+            <div class="botoes">
+               <div class="botao">
+                  <button class="button" type="submit" value="submit">Gravar</button>
+               </div>
+               <div class="botao">
+                  <a href="{{ url_for('Blueprint_aluno.tabela_alunos') }}" class="button">Cancelar</a>
+               </div>
+            </div>
+         </form>
+      </div>
+   </section>
+</div>
+{% endblock %}
+{% block js %}
+<script src="../../static/js/codigopostal.js"></script>
+<script src="../../static/js/limites.js"></script>
+<script src="../../static/js/aviso_existente.js"></script>
+{% endblock %}

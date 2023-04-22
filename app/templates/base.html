@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" href="../static/imagens/Martz90-Circle-Books.512.png" type="image/x-icon">
+   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+   <link rel="stylesheet" href="../static/css/base.css">
+   {% block css %}{% endblock %}
+   <title>{% block titlebar %}{% endblock %}</title>
+</head>
+<body>
+   <header class="header">
+      <a href="{{ url_for('Blueprint_estagio.tabela_estagios') }}" class="logo">Gestão de Estagios</a>
+
+      <i class="bx bx-menu" id="menu-icon"></i>
+
+      <nav class="navbar">
+         <a href="{{ url_for('Blueprint_turma.tabela_turmas') }}">Turmas</a>
+         <a href="{{ url_for('Blueprint_aluno.tabela_alunos') }}">Alunos</a>
+         <a href="{{ url_for('Blueprint_entidade.tabela_entidades') }}">Entidades</a>
+         <a href="{{ url_for('Blueprint_estagio.tabela_estagios') }}">Estagios</a>
+      </nav>
+   </header>
+   <div class="nav-bg"></div>
+
+
+   <section class="titulo">{% block titulo %}{% endblock %}</section>
+   <section>{% block content %}{% endblock %}</section>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+   <script src="../static/js/base.js"></script>
+   {% block js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Gestão de Estagios{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/css/forms.css">
+{% endblock %}
+{% block titulo %}Nova Entidade{% endblock %}
+{% block content %}
+<div class="container">
+   <section>
+      {% if mensagem %}
+         <div id="mensagem" class="alert alert-warning escondido" role="alert">
+            {{ mensagem }}
+         </div>
+      {% endif %}
+      <div class="form-box">
+         <form action="{{ url_for('Blueprint_entidade.nova_entidade') }}" method="POST">
+            <input name="form_type" value="escolha2" style="display: none;">
+            <div class="inputbox">
+               <input name=Nome type="text" maxlength="100" required>
+               <label for="">Nome</label>
+            </div>
+            <div class="inputbox">
+               <input name=morada type="text" required>
+               <label for="">Morada</label>
+            </div>
+            <div class="inputbox" id="InputCodigoPostal">
+               <input name=cod_postal type="text" pattern="\d{4}-?\d{3}" maxlength="8" required
+                  title="Por favor, digite o codigo postal corretamente." oninput="formatar(this)">
+               <label for="">Codigo postal</label>
+            </div>
+            <div class="inputbox" id="InputLocalidade">
+               <input name=localidade type="text" required>
+               <label for="">Localidade</label>
+            </div>
+            <div class="inputbox">
+               <input name=nif min="000000000" max="999999999" type="number" required
+                  oninvalid="this.setCustomValidity('Por favor, digite um número de até 9 dígitos.')"
+                  oninput="limitarInput2(this)">
+               <label for="">NIF</label>
+            </div>
+            <div class="inputbox">
+               <input name=pessoa_responsavel type="text" required>
+               <label for="">Pessoa responsavel</label>
+            </div>
+            <div class="inputbox">
+               <input name=cargo_pessoa_responsavel type="text" required>
+               <label for="">Cargo pessoa responsavel</label>
+            </div>
+            <div class="botoes">
+               <div class="botao">
+                  <button class="button" type="submit" value="submit">Gravar</button>
+               </div>
+               <div class="botao">
+                  <a href="{{ url_for('Blueprint_entidade.tabela_entidades') }}" class="button">Cancelar</a>
+               </div>
+            </div>
+         </form>
+      </div>
+   </section>
+</div>
+{% endblock %}
+{% block js %}
+<script src="../../static/js/codigopostal.js"></script>
+<script src="../../static/js/limites.js"></script>
+<script src="../../static/js/aviso_existente.js"></script>
+{% endblock %}

@@ -1,0 +1,204 @@
+.botao_sem_tabela{
+   display: flex;
+   justify-content: center;
+}
+
+.container > p {
+   margin-top: 20px;
+   text-align: center;
+   font-size: x-large;
+   color: red;
+   padding-bottom: 1rem;
+}
+
+.avisos_container>a {
+   background-color: yellow;
+   border: 2px solid black;
+   border-radius: 10px;
+   padding: 10px;
+   position: fixed;
+   bottom: 0;
+   right: 0;
+   text-decoration: none;
+}
+
+.aviso_turmas {
+   margin: 0 20px 220px;
+}
+
+.aviso_alunos {
+   margin: 0 20px 120px;
+}
+
+.aviso_entidades {
+   margin: 0 20px 20px;
+}
+
+.botao_com_tabela{
+   float: right;
+   margin-top: -90px;
+}
+
+.button {
+   display: inline-block;
+   padding: .6rem .9rem;
+   background: #0ef;
+   border-radius: 4rem;
+   box-shadow: 0 0 .5rem #0ef;
+   font-size: 1rem;
+   color: #323946;
+   letter-spacing: .1rem;
+   font-weight: 600;
+   transition: .5s ease;
+   text-decoration: none;
+}
+
+.button:hover{
+   box-shadow: none;
+}
+
+.combo-box {
+   position: absolute;
+   display: inline-block;
+   width: calc(29% - 10px);
+   margin: -90px 30px;
+   
+}
+
+.combo-box label {
+   font-weight: bold;
+   margin-left: 4px;
+   color: #fff;
+}
+
+.combo-box select {
+   border-bottom: 2px solid #fff;
+   width: auto;
+   cursor: pointer;
+   margin: 0 10px;
+   padding: 0.5rem;
+   background-color: transparent;
+   color: #fff;
+   font-size: 1rem;
+   line-height: 1.4;
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+   border-radius: 5px;
+}
+
+select option {
+   color: black;
+}
+
+table {
+   border-collapse: collapse;
+   margin: 0;
+   padding: 0;
+   width: 100%;
+   table-layout: fixed;
+}
+
+table tr {
+   color: #fff;
+   background-color: rgba(255, 255, 255, .1);
+   border: 1px solid rgba(255, 255, 255, .2);
+   border-bottom: 1px solid #ffffff50;
+}
+
+table th,
+table td {
+   padding: .625rem;
+}
+
+table th {
+   backdrop-filter: blur(10px);
+   font-size: .8rem;
+   text-transform: uppercase;
+   text-align: left;
+}
+
+table th:last-child,
+table td:last-child {
+   width: 170px;
+   text-align: right;
+}
+
+.col-botoes {
+   text-decoration: none;
+   padding-left: 1rem;
+}
+
+table tr:last-child {
+   border-bottom: 0;
+}
+
+@media screen and (max-width: 900px) {
+   table {
+      border: 0;
+   }
+
+   table caption {
+      font-size: 1.3rem;
+   }
+
+   table thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+      position: absolute;
+      
+   }
+
+   table tr:not(:last-child) {
+      display: block;
+      margin-bottom: 1rem;
+   }
+
+   table td {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: .8rem;
+      text-align: right;
+      padding: .625rem 20px;
+   }
+
+   table th:last-child,
+   table td:last-child {
+      width: 100%;
+      text-align: right;
+   }
+
+
+   table td::before {
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+   }
+
+   table td:last-child {
+      border-bottom: 0;
+   }
+}
+
+@media (max-width: 826px) {
+   .botao_com_tabela{
+      float: none;
+      display: flex;
+      justify-content: center;
+      margin-top: -30px;
+   }
+   .combo-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto 0;
+      position: relative;
+      width: 50%; /* ajuste o valor do width conforme necessário */
+   }
+
+   .conteudo {
+      margin-top: 1rem;
+   }
+}

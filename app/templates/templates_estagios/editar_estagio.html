@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Gestão de Estagios{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/css/forms.css">
+{% endblock %}
+{% block titulo %}Editar Estagio{% endblock %}
+{% block content %}
+<div class="conteiner">
+   <section>
+      <div class="form-box">
+         <form action="{{ url_for('Blueprint_estagio.editar_estagios', estagio_id=estagio.id) }}" method="POST">
+            <div class="combo-box">
+               <label>Turma</label>
+               <select name="turma" id="combo_box_turma">
+                  {% if turmas|length == 0 %}
+                  <option>Não há turmas</option>
+                  {% else %}
+                  {% for listaturmas in turmas %}
+                  <option value="{{listaturmas.descricao}}"> {{listaturmas.descricao}} </option>
+                  {% endfor %}
+                  {% endif %}
+               </select>
+            </div>
+            <div class="combo-box" >
+               <label>Aluno</label>
+               <select name="alunos" id="combo_box_alunos"></select>
+            </div>
+            <div class="combo-box">
+               <label>Entidade</label>
+               <select name="entidades" id="combo_box_entidade">
+                  {% if entidade|length == 0 %}
+                  <option>Não há Entidades</option>
+                  {% else %}
+                  {% for listaentidade in entidade %}
+                  {% if listaentidade.id == id_entidade %}
+                  <option value="{{listaentidade.nome}}" selected> {{listaentidade.nome}} </option>
+                  {% else %}
+                  <option value="{{listaentidade.nome}}"> {{listaentidade.nome}} </option>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+               </select>
+            </div><br>
+            <div class="inputbox" id="datas">
+               <input name="data_inicio" max="9999-12-31" id="data_inicio" value="{{estagio.data_inicio}}" type="date">
+               <label for="">Data inicio</label>
+            </div>
+            <div class="inputbox" id="datas">
+               <input name="data_fim" max="9999-12-31" id="data_fim" value="{{estagio.data_fim}}" type="date">
+               <label for="">Data fim</label>
+            </div>
+            <div class="inputbox">
+               <input name=morada type="text" value="{{estagio.morada}}" id="morada" required>
+               <label for="">Morada</label>
+            </div>
+            <div class="inputbox" id="InputCodigoPostal">
+               <input name=cod_postal type="text" maxlength="8" value="{{codigoPostal}}" id="cod_postal" required
+                  title="Por favor, digite o codigo postal corretamente.">
+               <label for="">Codigo postal</label>
+            </div>
+            <div class="inputbox" id="InputLocalidade">
+               <input name=localidade type="text" id="localidade" value="{{localidade}}" required>
+               <label for="">Localidade</label>
+            </div>
+            <div class="inputbox">
+               <input name=Tutor type="text" value="{{estagio.tutor}}" required>
+               <label for="">Tutor</label>
+            </div>
+            <div class="inputbox">
+               <input name=EmailTutor type="text" value="{{estagio.email_tutor}}" required>
+               <label for="">Email Tutor</label>
+            </div>
+            <div class="inputbox">
+               <input name=Orintador type="text" value="{{estagio.orientador}}" required>
+               <label for="">Orintador</label>
+            </div>
+            <div class="botoes">
+               <div class="botao">
+                  <button class="button" type="submit" value="submit">Gravar</button>
+               </div>
+               <div class="botao">
+                  <a href="javascript:history.back()" class="button">Cancelar</a>
+               </div>
+            </div>
+         </form>
+      </div>
+   </section>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="../../static/js/Novo_estagio.js"></script>
+{% endblock %}

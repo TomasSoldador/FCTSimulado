@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Gestão de Estagios{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/css/principais.css">
+{% endblock %}
+{% block titulo %}Estagios{% endblock %}
+{% block content %}
+<div class="container">
+   {% if estagios|length == 0 %}
+      <p>Não há Estagios</p>
+      <div class="botao_sem_tabela">
+         <a href="Novo_Estagio" class="button"><ion-icon name="person-add-outline" id="icons"></ion-icon><span>Novo Estagio</span></a>
+      </div>
+      <div class="avisos_container">
+         <!-- TODO: fazer os avisos aparecerem da direita-->
+         {% if turmas|length == 0 %}
+         <a href="Nova_Turma" class="aviso_turmas">
+            <p>AVISO: </p>
+            <p>Não existe uma turma para adicionar ao estagio</p>
+            <p>Clique aqui para adicionar</p>
+         </a>
+         {% endif %}
+         {% if alunos|length == 0 %}
+         <a href="Novo_Aluno" class="aviso_alunos">
+            <p>AVISO: </p>
+            <p>Não existe um aluno para adicionar ao estagio</p>
+            <p>Clique aqui para adicionar</p>
+         </a>
+         {% endif %}
+         {% if entidade|length == 0 %}
+         <a href="Nova_Entidade" class="aviso_entidades">
+            <p>AVISO: </p>
+            <p>Não existe uma entidade para adicionar ao estagio</p>
+            <p>Clique aqui para adicionar</p>
+         </a>
+         {% endif %}
+      </div>
+   {% else %}
+   <div class="botao_com_tabela">
+      <a href="Novo_Estagio" class="button"><ion-icon name="person-add-outline" id="icons"></ion-icon><span>Novo Estagio</span></a>
+   </div>
+   <div class="combo-box" style="width: 300px !important;">
+      <label>Turma:</label>
+      <select name="turmas" id="combobox">
+         <option value="todos">selecione a turma</option>
+         {% for listaturmas in turmas %}
+         {% if listaturmas.descricao == turmaselecionada %}
+         <option value="{{listaturmas.descricao}}"> {{listaturmas.descricao}} </option>
+         {% else %}
+         <option value="{{listaturmas.descricao}}"> {{listaturmas.descricao}} </option>
+         {% endif %}
+         {% endfor %}
+      </select>
+   </div>
+   <p id= "frase">Não ha estagios nesta turma</p>
+   <div class="conteudo">
+      <table id="tabela-estagios">
+         <thead>
+            <tr>
+               <th scope="col">Aluno</th>
+               <th scope="col">Entidade</th>
+               <th scope="col">Data inicio</th>
+               <th scope="col">Data fim</th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+         </tbody>
+      </table>
+      {% endif %}
+   </div>
+</div>
+{% endblock %}
+{% block js %}
+<script src="../../static/js/Estagios.js"></script>
+{% endblock %}
