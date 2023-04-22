@@ -16,3 +16,4 @@ Turmas = Base.classes.turmas
 
 
 print('ola')
+print('ola ola')
