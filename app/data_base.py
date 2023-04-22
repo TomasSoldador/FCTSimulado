@@ -13,3 +13,6 @@ Alunos = Base.classes.alunos
 Entidade = Base.classes.entidades
 Estagios = Base.classes.estagios
 Turmas = Base.classes.turmas
+
+
+print('ola')
