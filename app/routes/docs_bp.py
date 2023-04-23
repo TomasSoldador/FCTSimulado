@@ -3,10 +3,9 @@ from ..data_base import *
 from docx import Document
 from docx.table import Table
 from re import search
+from datetime import date
 
 docs_bp = Blueprint('Blueprint_docs', __name__)
-
-# TODO: meter as datas no documentos
 
 def replace_text(doc, repor):
    for paragrafo in doc.paragraphs:
@@ -28,6 +27,8 @@ def baixar(estagio_id):
    turma = session.query(Turmas).filter_by(id=aluno.turmaId).first()
    entidade = session.query(Entidade).filter_by(id=estagio.entidadeId).first()
    numero = search(r'\d+', turma.descricao).group()
+   
+   print(date.today())
 
    repor = {
       '[nome_aluno]': aluno.nome,
@@ -46,6 +47,7 @@ def baixar(estagio_id):
       '[Número de Contribuinte Aluno]': aluno.nif,
       '[Morada Aluno]': aluno.morada,
       '[nome]': aluno.nome,
+      '[data]': str(date.today().strftime("%d-%m-%Y"))
    }
 
    doc1 = Document('app/docs/Folha de Presencas e Registo de Atividades Semanal.docx')

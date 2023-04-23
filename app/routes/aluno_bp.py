@@ -129,6 +129,9 @@ def editar_alunos(aluno_id):
 @aluno_bp.route('/EliminarAluno/<int:aluno_id>', methods=['GET', 'POST'])
 def eliminar_aluno(aluno_id):
    aluno = session.query(Alunos).get(aluno_id)
+   estagio = session.query(Estagios).filter_by(alunoId=aluno.id).first()
+   if estagio:
+      session.delete(estagio)
    session.delete(aluno)
    session.commit()
    return redirect(url_for('Blueprint_aluno.tabela_alunos'))

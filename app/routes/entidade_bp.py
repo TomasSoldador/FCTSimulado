@@ -21,7 +21,6 @@ def nova_entidade():
       pessoa_responsavel = request.form['pessoa_responsavel']
       cargo_pessoa_responsavel = request.form['cargo_pessoa_responsavel']
       cod_postal = cod_postal + " " + localidade
-      # TODO: em vez de verificar so o codigo postal em conjunto com a localidade, verificar a localidade e o codigo postal separadamente
       entidade_existe = session.query(Entidade).filter((Entidade.morada == morada) | (
          Entidade.cod_postal == cod_postal) | (Entidade.nome == nome) | (Entidade.nif == nif)).first()
       if entidade_existe:
@@ -65,6 +64,9 @@ def editar_entidade(entidades_id):
 @entidade_bp.route('/EliminarEntidade/<int:entidades_id>', methods=['GET', 'POST'])
 def eliminar_entidade(entidades_id):
    entidades = session.query(Entidade).get(entidades_id)
+   estagios = session.query(Estagios).filter_by(entidadeId=entidades_id).all()
+   for estagio in estagios:
+      session.delete(estagio)
    session.delete(entidades)
    session.commit()
    return redirect(url_for('Blueprint_entidade.tabela_entidades'))
