@@ -3,8 +3,6 @@ como começo o programa dar:
    se der um erro:
       git reset --hard
 
-
-asassa
 quando termino dar:
    git add -u
 
