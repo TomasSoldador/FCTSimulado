@@ -1,5 +1,7 @@
 como começo o programa dar:
    git pull
+   se der um erro:
+      git reset --hard
 
 quando termino dar:
    git add -u
