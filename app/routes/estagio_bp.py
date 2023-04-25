@@ -8,7 +8,6 @@ estagio_bp = Blueprint('Blueprint_estagio', __name__)
 @estagio_bp.route('/')
 @estagio_bp.route('/Estagios')
 def tabela_estagios():
-   # TODO: caso uma entidade ou um aluno seja apagado deve apagar tbm os estagios que ele esta
    estagios = session.query(Estagios).all()
    entidade = session.query(Entidade).all()
    turmas = session.query(Turmas).all()

@@ -12,15 +12,6 @@
          <a href="Novo_Aluno" class="button">
             <ion-icon name="person-add-outline" id="icons"></ion-icon><span>Novo aluno</span></a>
       </div>
-      <div class="avisos_container">
-         {% if turmas|length == 0 %}
-            <a href="Nova_Turma" class="aviso_turmas">
-               <p>AVISO: </p>
-               <p>Não existe uma turma para adicionar alunos</p>
-               <p>Clique aqui para adicionar</p>
-            </a>
-         {% endif %}
-      </div>
    {% else %}
       <div class="barra_tarefas">
          <div class="botao_com_tabela">

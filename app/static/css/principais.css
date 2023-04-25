@@ -11,29 +11,6 @@
    padding-bottom: 1rem;
 }
 
-.avisos_container>a {
-   background-color: yellow;
-   border: 2px solid black;
-   border-radius: 10px;
-   padding: 10px;
-   position: fixed;
-   bottom: 0;
-   right: 0;
-   text-decoration: none;
-}
-
-.aviso_turmas {
-   margin: 0 20px 220px;
-}
-
-.aviso_alunos {
-   margin: 0 20px 120px;
-}
-
-.aviso_entidades {
-   margin: 0 20px 20px;
-}
-
 .botao_com_tabela{
    float: right;
    margin-top: -90px;
@@ -179,6 +156,11 @@ table tr:last-child {
 
    table td:last-child {
       border-bottom: 0;
+   }
+
+   .avisos_container {
+      bottom: 0;
+      right: 0;
    }
 }
 

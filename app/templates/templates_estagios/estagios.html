@@ -11,30 +11,6 @@
       <div class="botao_sem_tabela">
          <a href="Novo_Estagio" class="button"><ion-icon name="person-add-outline" id="icons"></ion-icon><span>Novo Estagio</span></a>
       </div>
-      <div class="avisos_container">
-         <!-- TODO: fazer os avisos aparecerem da direita-->
-         {% if turmas|length == 0 %}
-         <a href="Nova_Turma" class="aviso_turmas">
-            <p>AVISO: </p>
-            <p>Não existe uma turma para adicionar ao estagio</p>
-            <p>Clique aqui para adicionar</p>
-         </a>
-         {% endif %}
-         {% if alunos|length == 0 %}
-         <a href="Novo_Aluno" class="aviso_alunos">
-            <p>AVISO: </p>
-            <p>Não existe um aluno para adicionar ao estagio</p>
-            <p>Clique aqui para adicionar</p>
-         </a>
-         {% endif %}
-         {% if entidade|length == 0 %}
-         <a href="Nova_Entidade" class="aviso_entidades">
-            <p>AVISO: </p>
-            <p>Não existe uma entidade para adicionar ao estagio</p>
-            <p>Clique aqui para adicionar</p>
-         </a>
-         {% endif %}
-      </div>
    {% else %}
    <div class="botao_com_tabela">
       <a href="Novo_Estagio" class="button"><ion-icon name="person-add-outline" id="icons"></ion-icon><span>Novo Estagio</span></a>
