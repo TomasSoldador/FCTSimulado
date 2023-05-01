@@ -2,48 +2,6 @@
 {% block title %}Gestão de Estagios{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="../static/css/principais.css">
-<style>
-   /* Define o estilo do pop-up de confirmação */
-   .confirmation-popup {
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     background-color: rgba(0, 0, 0, 0.5);
-     z-index: 9999;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-   }
-
-   .popup-message {
-     background-color: #fff;
-     padding: 20px;
-     border-radius: 5px;
-     text-align: center;
-   }
-
-   .popup-buttons {
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     margin-top: 20px;
-   }
-
-   .popup-button {
-     background-color: #4CAF50;
-     border: none;
-     color: white;
-     padding: 10px;
-     text-align: center;
-     text-decoration: none;
-     display: inline-block;
-     font-size: 16px;
-     margin: 4px 2px;
-     cursor: pointer;
-   }
- </style>
 {% endblock %}
 {% block titulo %}Turmas{% endblock %}
 {% block content %}
@@ -88,42 +46,8 @@
                {% endfor %}
             </tbody>
          </table>
-         <div id="confirmation-popup" class="confirmation-popup">
-            <div class="popup-message">
-               <p>Tem certeza que deseja excluir?</p>
-               <div class="popup-buttons">
-                  <button class="popup-button" onclick="confirmAction()">Sim</button>
-                  <button class="popup-button" onclick="hideConfirmationPopup()">Não</button>
-               </div>
-            </div>
-         </div>
       </div>
    {% endif %}
 </div>
 
-{% endblock %}
-{% block js %}
-<script>
-
-   $(document).ready(function(){
-      hideConfirmationPopup()
-   })
-   // Mostra o pop-up de confirmação
-   function showConfirmationPopup() {
-     var popup = document.getElementById("confirmation-popup");
-     popup.style.display = "flex";
-   }
-
-   // Esconde o pop-up de confirmação
-   function hideConfirmationPopup() {
-     var popup = document.getElementById("confirmation-popup");
-     popup.style.display = "none";
-   }
-
-   // Executa a ação confirmada
-   function confirmAction() {
-     // Ação de exclusão aqui
-     hideConfirmationPopup();
-   }
- </script>
 {% endblock %}
