@@ -36,7 +36,10 @@ def novo_aluno():
       turmas = request.form['turmas']
       numero = f"L{request.form['numero']}"
       Nome = request.form['Nome']
-      Nome_Abreviado = request.form['Nome_Abreviado']
+      lista_nomes = Nome.split()
+      primeiro_nome = lista_nomes[0]
+      ultimo_nome = lista_nomes[-1]
+      Nome_Abreviado = primeiro_nome + " " + ultimo_nome
       morada = request.form['morada']
       codigo_postal = request.form['codigo_postal']
       localidade = request.form['localidade']
@@ -106,7 +109,7 @@ def editar_alunos(aluno_id):
          codigoPostal = aluno.cod_postal[:8]
          return render_template('Pasta_Alunos/editar_aluno.html', turmas=turmas, aluno=aluno, numero=aluno.nr[1:], turmaEdit=turmaEdit, localidade=localidade, codigoPostal=codigoPostal, mensagem=mensagem)
       aluno.nr = numero
-      aluno.nome = request.form['Nome']
+      aluno.nome = request.form['Nome']  
       aluno.nome_abreviado = request.form['Nome_Abreviado']
       aluno.morada = request.form['morada']
       aluno.cod_postal = codigo_postal

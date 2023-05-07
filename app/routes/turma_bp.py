@@ -49,7 +49,6 @@ def editar_turma(turma_id):
 
 @turma_bp.route('/EliminarTurma/<int:turma_id>', methods=['GET', 'POST'])
 def eliminar_turma(turma_id):
-   #TODO: pergunta se temos a certeza se queremos eliminar e os riscos de tal
    alunos = session.query(Alunos).filter_by(turmaId=turma_id).all()
    for aluno in alunos:
       estagio = session.query(Estagios).filter_by(alunoId=aluno.id).first()
