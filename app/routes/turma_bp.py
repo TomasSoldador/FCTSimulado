@@ -1,13 +1,50 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from ..data_base import *
-from re import search
+from ..data_base import session, Turmas, Alunos, Estagios
 
 turma_bp = Blueprint('Blueprint_turma', __name__)
 
 
+def lista_todas_turmas():
+   return session.query(Turmas).all()
+
+
+def get_turma_por_id(turma_id):
+   return session.query(Turmas).get(turma_id)
+
+
+def turma_existente(descricao_turma):
+   return session.query(Turmas).filter_by(descricao=descricao_turma).first() is not None
+
+
+def extrair_numero_descricao(descricao_turma):
+   return descricao_turma.split(":")[1].strip()
+
+
+def criar_turma(descricao_turma):
+   nova_turma = Turmas(descricao=descricao_turma)
+   session.add(nova_turma)
+   session.commit()
+
+
+def atualizar_turma(turma, descricao_turma):
+   turma.descricao = descricao_turma
+   session.commit()
+
+
+def deletar_turma(turma):
+   alunos = session.query(Alunos).filter_by(turmaId=turma.id).all()
+   for aluno in alunos:
+      estagio = session.query(Estagios).filter_by(alunoId=aluno.id).first()
+      if estagio:
+         session.delete(estagio)
+      session.delete(aluno)
+   session.delete(turma)
+   session.commit()
+
+@turma_bp.route('/')
 @turma_bp.route('/Turmas')
 def tabela_turmas():
-   turmas = session.query(Turmas).all()
+   turmas = lista_todas_turmas()
    return render_template('templates_turmas/turmas.html', turmas=turmas)
 
 
@@ -15,47 +52,36 @@ def tabela_turmas():
 def nova_Turma():
    mensagem = None
    if request.method == "POST":
-      turma = f"Turma: {request.form['turma']}"
-      if not session.query(Turmas).filter_by(descricao=turma).first():
-         p = Turmas(
-               descricao=turma)
-         session.add(p)
-         session.commit()
+      descricao_turma = f"Turma: {request.form['turma']}"
+      if not turma_existente(descricao_turma):
+         criar_turma(descricao_turma)
          return redirect(url_for('Blueprint_turma.tabela_turmas'))
       else:
-         turmas = session.query(Turmas).all()
-         mensagem = f"A {turma} já existe."
-         return render_template('templates_turmas/nova_turma.html', turmas=turmas, mensagem=mensagem)
-   return render_template('templates_turmas/nova_turma.html')
+         mensagem = f"A {descricao_turma} já existe."
+   turmas = lista_todas_turmas()
+   return render_template('templates_turmas/nova_turma.html', turmas=turmas, mensagem=mensagem)
 
 
 @turma_bp.route('/Editar_Turma/<int:turma_id>', methods=['GET', 'POST'])
 def editar_turma(turma_id):
-   turma = session.query(Turmas).get(turma_id)
-   if request.method == 'POST':
-      nova_turma = f"Turma: {request.form['turma']}"
-      if not session.query(Turmas).filter(Turmas.id != turma_id, Turmas.descricao == nova_turma).first():
-         turma.descricao = nova_turma
-         session.commit()
+   turma = get_turma_por_id(turma_id)
+   if request.method == "POST":
+      descricao_turma = f"Turma: {request.form['turma']}"
+      if not turma_existente(descricao_turma):
+         atualizar_turma(turma, descricao_turma)
          return redirect(url_for('Blueprint_turma.tabela_turmas'))
       else:
-         numero = search(r'\d+', turma.descricao).group()
-         mensagem = f"A {nova_turma} já existe."
+         numero = extrair_numero_descricao(descricao_turma)
+         mensagem = f"A {descricao_turma} já existe."
          return render_template('templates_turmas/editar_turma.html', turma=turma, numero=numero, mensagem=mensagem)
-
-   numero = search(r'\d+', turma.descricao).group()
+   numero = extrair_numero_descricao(turma.descricao)
    return render_template('templates_turmas/editar_turma.html', turma=turma, numero=numero)
 
 
 @turma_bp.route('/EliminarTurma/<int:turma_id>', methods=['GET', 'POST'])
 def eliminar_turma(turma_id):
-   alunos = session.query(Alunos).filter_by(turmaId=turma_id).all()
-   for aluno in alunos:
-      estagio = session.query(Estagios).filter_by(alunoId=aluno.id).first()
-      if estagio:
-         session.delete(estagio)
-      session.delete(aluno)
-   turma = session.query(Turmas).get(turma_id)
-   session.delete(turma)
-   session.commit()
+   turma = get_turma_por_id(turma_id)
+   if not turma:
+      return redirect(url_for('Blueprint_turma.tabela_turmas'))
+   deletar_turma(turma)
    return redirect(url_for('Blueprint_turma.tabela_turmas'))

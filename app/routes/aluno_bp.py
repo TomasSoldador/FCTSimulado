@@ -4,30 +4,39 @@ from ..data_base import *
 
 aluno_bp = Blueprint('Blueprint_aluno', __name__)
 
+def get_todos_alunos():
+   return session.query(Alunos).all()
+
+def get_todas_turmas():
+   return session.query(Turmas).all()
 
 @aluno_bp.route('/Alunos', methods=["POST", "GET"])
 def tabela_alunos():
-   alunos = session.query(Alunos).all()
-   turmas = session.query(Turmas).all()
+   alunos = get_todos_alunos()
+   turmas = get_todas_turmas()
    return render_template('templates_alunos/alunos.html', alunos=alunos, turmas=turmas)
 
 
 @aluno_bp.route('/get_alunos', methods=["POST", "GET"])
 def get_alunos():
-   alunos = []
-   turma = session.query(Turmas).first()
-   if request.method == "POST" and request.json.get("selected_value"):
-      selected_value = request.json.get("selected_value")
-      if selected_value == "todos":
-         alunos = session.query(Alunos).all()
-      else:
-         turma = session.query(Turmas).filter_by(
-               descricao=selected_value).first()
-         id_turma = turma.id
-         alunos = session.query(Alunos).filter_by(turmaId=id_turma).all()
-   alunos_json = [{'id': aluno.id, 'turmaId': aluno.turmaId, 'nr': aluno.nr, 'nome': aluno.nome, 'nome_abreviado': aluno.nome_abreviado, 'morada': aluno.morada, 'cod_postal': aluno.cod_postal,
-                  'cartao_cidadao': aluno.cartao_cidadao, 'validade_cc': aluno.validade_cc, 'nif': aluno.nif} for aluno in alunos]  # converte a lista de alunos em uma lista de dicionários
-   return jsonify(alunos_json)
+   try:
+      alunos = []
+      turma = session.query(Turmas).first()
+      if request.method == "POST" and request.json.get("selected_value"):
+         selected_value = request.json.get("selected_value")
+         if selected_value == "todos":
+            alunos = session.query(Alunos).all()
+         else:
+            turma = session.query(Turmas).filter_by(
+                  descricao=selected_value).first()
+            id_turma = turma.id
+            alunos = session.query(Alunos).filter_by(turmaId=id_turma).all()
+      alunos_json = [{'id': aluno.id, 'turmaId': aluno.turmaId, 'nr': aluno.nr, 'nome': aluno.nome, 'nome_abreviado': aluno.nome_abreviado, 'morada': aluno.morada, 'cod_postal': aluno.cod_postal,
+                     'cartao_cidadao': aluno.cartao_cidadao, 'validade_cc': aluno.validade_cc, 'nif': aluno.nif} for aluno in alunos]  # converte a lista de alunos em uma lista de dicionários
+      return jsonify(alunos_json)
+   except Exception as e:
+      return f"An error occurred: {e}"
+
 
 
 @aluno_bp.route('/Novo_Aluno', methods=["POST", "GET"])
