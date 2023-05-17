@@ -7,6 +7,11 @@
 {% block content %}
 <div class="container">
    <section>
+      {% if mensagem %}
+         <div id="mensagem" class="alert alert-warning escondido" role="alert">
+            {{ mensagem }}
+         </div>
+      {% endif %}
       <div class="form-box">
          <form action="{{ url_for('Blueprint_estagio.novo_estagios') }}" method="POST">
             <div class="combo-box">
@@ -86,4 +91,5 @@
 
 {% block js %}
 <script src="../../static/js/Novo_estagio.js"></script>
+<script src="../../static/js/aviso_existente.js"></script>
 {% endblock %}

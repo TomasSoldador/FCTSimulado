@@ -5,6 +5,9 @@ from docx.table import Table
 from re import search
 from datetime import date
 
+
+#TODO: fazer com que fique tudo num zip e faça downlownd no browser
+
 docs_bp = Blueprint('Blueprint_docs', __name__)
 
 def replace_text(doc, repor):

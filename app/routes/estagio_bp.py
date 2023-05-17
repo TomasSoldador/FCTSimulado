@@ -64,12 +64,37 @@ def novo_estagios():
       orientador = request.form['Orintador']
       entidades_selecionada = session.query(Entidade).filter_by(nome=entidades_selecionada).first()
       entidadeId = entidades_selecionada.id
-      if selected_aluno != 'nenhum':
-         p = Estagios(alunoId=selected_aluno, entidadeId=entidadeId, data_inicio=data_inicio, data_fim=data_fim,
-                     morada=morada, cod_postal=cod_postal, tutor=tutor, email_tutor=email_tutor, orientador=orientador)
-         session.add(p)
-         session.commit()
-         return redirect(url_for('Blueprint_estagio.tabela_estagios'))
+
+#TODO: corrigir o porque de ele estar a guardar na mesma e qua na mensagem apareça Selecione um aluno
+      estagio_existente = session.query(Estagios).filter(
+         (
+            (Estagios.alunoId == selected_aluno)
+         )
+      ).first()
+
+      if estagio_existente or selected_aluno == "nenhum":
+         if selected_aluno == "nenhum":
+            mensagem = f'Selecione um aluno'
+         elif estagio_existente:
+            mensagem = f'Este {selected_aluno}, já esta num estagio'
+         
+         return render_template('templates_estagios/novo_estagio.html', mensagem=mensagem, turmas=turmas, entidade=entidade, alunos=alunos)
+
+      p = Estagios(
+         alunoId=selected_aluno, 
+         entidadeId=entidadeId, 
+         data_inicio=data_inicio, 
+         data_fim=data_fim,
+         morada=morada, 
+         cod_postal=cod_postal, 
+         tutor=tutor,
+         email_tutor=email_tutor, 
+         orientador=orientador
+      )
+
+      session.add(p)
+      session.commit()
+      return redirect(url_for('Blueprint_estagio.tabela_estagios'))
    return render_template('templates_estagios/novo_estagio.html', turmas=turmas, entidade=entidade, alunos=alunos)
 
 @estagio_bp.route('/get_options', methods=['GET', "POST"])

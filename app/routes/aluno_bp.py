@@ -98,7 +98,7 @@ def editar_alunos(aluno_id):
       codigo_postal = codigo_postal + " " + localidade
 
       aluno_existe = session.query(Alunos).filter(
-         Alunos.id != aluno_id,
+         (Alunos.id != aluno_id),
          (Alunos.cartao_cidadao == cartao_cidadao) |
          (Alunos.nif == nif) |
          (Alunos.nr == numero)
