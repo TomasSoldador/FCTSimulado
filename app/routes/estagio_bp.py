@@ -65,7 +65,6 @@ def novo_estagios():
       entidades_selecionada = session.query(Entidade).filter_by(nome=entidades_selecionada).first()
       entidadeId = entidades_selecionada.id
 
-#TODO: corrigir o porque de ele estar a guardar na mesma e qua na mensagem apareça Selecione um aluno
       estagio_existente = session.query(Estagios).filter(
          (
             (Estagios.alunoId == selected_aluno)
@@ -119,8 +118,30 @@ def get_info_entidade():
 
 @estagio_bp.route('/Editar_Estagio/<int:estagio_id>', methods=["POST", "GET"])
 def editar_estagios(estagio_id):
+   turmas = session.query(Turmas).all()
+   entidade = session.query(Entidade).all()
+   alunos = session.query(Alunos).all()
    estagio = session.query(Estagios).get(estagio_id)
    if request.method == 'POST':
+      alunoId = request.form['alunos']
+
+      estagio_existente = session.query(Estagios).filter(
+         (Estagios.id != estagio_id) &
+         (
+            (Estagios.alunoId == alunoId)
+         )
+      ).first()
+
+      if estagio_existente or alunoId == "nenhum":
+         if alunoId == "nenhum":
+            mensagem = f'Selecione um aluno'
+         elif estagio_existente:
+            mensagem = f'Este {alunoId}, já esta num estagio'
+         
+         return render_template('templates_estagios/editar_estagio.html', mensagem=mensagem, estagio=estagio, turmas=turmas, entidade=entidade)
+
+
+      estagio.alunoId = alunoId
       estagio.data_inicio = request.form['data_inicio']
       estagio.data_fim = request.form['data_fim']
       estagio.morada = request.form['morada']
@@ -130,8 +151,6 @@ def editar_estagios(estagio_id):
       estagio.tutor = request.form['Tutor']
       estagio.email_tutor = request.form['EmailTutor']
       estagio.orientador = request.form['Orintador']
-      alunos = request.form['alunos']
-      estagio.alunoId = alunos
       entidades = request.form['entidades']
       entidade = session.query(Entidade).filter_by(nome=entidades).first()
       estagio.entidadeId = entidade.id
@@ -139,9 +158,6 @@ def editar_estagios(estagio_id):
       return redirect(url_for('Blueprint_estagio.tabela_estagios'))
    localidade = estagio.cod_postal[9:]
    codigoPostal = estagio.cod_postal[:8]
-   turmas = session.query(Turmas).all()
-   entidade = session.query(Entidade).all()
-   alunos = session.query(Alunos).all()
    return render_template('templates_estagios/editar_estagio.html', estagio=estagio, turmas=turmas, entidade=entidade, id_entidade=estagio.entidadeId, alunos=alunos, id_alunos=estagio.alunoId,  localidade=localidade, codigoPostal=codigoPostal)
 
 @estagio_bp.route('/Eliminar_Estagio/<int:estagio_id>', methods=["POST", "GET"])
