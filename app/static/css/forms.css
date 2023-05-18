@@ -135,6 +135,10 @@ input:valid~label {
    top: -5px;
 }
 
+input[type=date]~label {
+   top: -5px;
+}
+
 .botoes {
    display: flex;
    justify-content: center;

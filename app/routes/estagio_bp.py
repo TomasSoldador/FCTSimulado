@@ -102,20 +102,16 @@ def get_options():
    turma = session.query(Turmas).first()
    if request.method == "POST" and request.json.get("selected_value"):
       selected_value = request.json.get("selected_value")
-      if selected_value == "todos":
-         alunos = session.query(Estagios).all()
-      else:
-         turma = session.query(Turmas).filter_by(
-               descricao=selected_value).first()
-         id_turma = turma.id
-         alunos = session.query(Alunos).filter_by(turmaId=id_turma).all()
+      turma = session.query(Turmas).filter_by(
+            descricao=selected_value).first()
+      id_turma = turma.id
+      alunos = session.query(Alunos).filter_by(turmaId=id_turma).all()
    return jsonify([{'id': aluno.id, 'nome': aluno.nome_abreviado} for aluno in alunos])
 
 @estagio_bp.route('/get_info_entidade', methods=['GET', 'POST'])
 def get_info_entidade():
    if request.method == "POST" and request.json.get("nome_entidade"):
       nome_entidade = request.json.get("nome_entidade")
-
       entidade = session.query(Entidade).filter_by(nome=nome_entidade).first()
       codigo_postal, localidade = entidade.cod_postal.split(" ")
    return jsonify({'morada': str(entidade.morada), 'cod_postal': str(codigo_postal), 'localidade': str(localidade)})
@@ -147,7 +143,6 @@ def editar_estagios(estagio_id):
    entidade = session.query(Entidade).all()
    alunos = session.query(Alunos).all()
    return render_template('templates_estagios/editar_estagio.html', estagio=estagio, turmas=turmas, entidade=entidade, id_entidade=estagio.entidadeId, alunos=alunos, id_alunos=estagio.alunoId,  localidade=localidade, codigoPostal=codigoPostal)
-
 
 @estagio_bp.route('/Eliminar_Estagio/<int:estagio_id>', methods=["POST", "GET"])
 def eliminar_estagios(estagio_id):
