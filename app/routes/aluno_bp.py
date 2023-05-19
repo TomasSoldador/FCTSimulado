@@ -24,13 +24,8 @@ def get_alunos():
       turma = session.query(Turmas).first()
       if request.method == "POST" and request.json.get("selected_value"):
          selected_value = request.json.get("selected_value")
-         if selected_value == "todos":
-            alunos = session.query(Alunos).all()
-         else:
-            turma = session.query(Turmas).filter_by(
-                  descricao=selected_value).first()
-            id_turma = turma.id
-            alunos = session.query(Alunos).filter_by(turmaId=id_turma).all()
+         turma = session.query(Turmas).filter_by(descricao=selected_value).first() 
+         alunos = session.query(Alunos).filter_by(turmaId=turma.id).all()
       alunos_json = [{'id': aluno.id, 'turmaId': aluno.turmaId, 'nr': aluno.nr, 'nome': aluno.nome, 'nome_abreviado': aluno.nome_abreviado, 'morada': aluno.morada, 'cod_postal': aluno.cod_postal,
                      'cartao_cidadao': aluno.cartao_cidadao, 'validade_cc': aluno.validade_cc, 'nif': aluno.nif} for aluno in alunos]  # converte a lista de alunos em uma lista de dicionários
       return jsonify(alunos_json)

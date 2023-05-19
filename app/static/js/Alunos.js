@@ -44,7 +44,7 @@ function carregar_alunos(selectedValue) {
             });
          }
       },
-      error: function (xhr, status, error) {
+      error: function (error) {
          console.error(error);
       }
    })

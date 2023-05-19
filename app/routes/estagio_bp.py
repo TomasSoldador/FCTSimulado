@@ -26,15 +26,11 @@ def get_alunos():
    estagios = None
    if request.method == "POST" and request.json.get("selected_value"):
       selected_value = request.json.get("selected_value")
-      if selected_value == "todos":
-         estagios = session.query(Estagios).all()
-      else:
-         turma = session.query(Turmas).filter_by(
-               descricao=selected_value).first()
-         id_turma = turma.id
-         alunos = session.query(Alunos).filter_by(turmaId=id_turma).all()
-         alunos_ids = [aluno.id for aluno in alunos]
-         estagios = session.query(Estagios).filter(Estagios.alunoId.in_(alunos_ids)).all()
+      turma = session.query(Turmas).filter_by(
+            descricao=selected_value).first()
+      alunos = session.query(Alunos).filter_by(turmaId=turma.id).all()
+      alunos_ids = [aluno.id for aluno in alunos]
+      estagios = session.query(Estagios).filter(Estagios.alunoId.in_(alunos_ids)).all()
    estagios_json = []
    if estagios != None:
       for estagio in estagios:
