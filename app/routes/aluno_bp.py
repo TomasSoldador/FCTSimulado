@@ -51,8 +51,12 @@ def novo_aluno():
       validade_cc = request.form['validade_cc']
       nif = request.form['nif']
       codigo_postal = codigo_postal + " " + localidade
-      aluno_existente = session.query(Alunos).filter((Alunos.cartao_cidadao == cartao_cidadao) | (
-         Alunos.nif == nif) | (Alunos.nr == numero)).first()
+      aluno_existente = session.query(Alunos).filter(
+         (Alunos.cartao_cidadao == cartao_cidadao) | 
+         (Alunos.nif == nif) | 
+         (Alunos.nr == numero)
+      ).first()
+      
       if aluno_existente:
          if aluno_existente.cartao_cidadao == cartao_cidadao:
                mensagem = f'O cartão de cidadão {cartao_cidadao}, já existe'

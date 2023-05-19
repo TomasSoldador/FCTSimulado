@@ -7,6 +7,11 @@
 {% block content %}
 <div class="conteiner">
    <section>
+      {% if mensagem %}
+         <div id="mensagem" class="alert alert-warning escondido" role="alert">
+            {{ mensagem }}
+         </div>
+      {% endif %}
       <div class="form-box">
          <form action="{{ url_for('Blueprint_estagio.editar_estagios', estagio_id=estagio.id) }}" method="POST">
             <div class="combo-box">
@@ -42,11 +47,11 @@
                </select>
             </div><br>
             <div class="inputbox" id="datas">
-               <input name="data_inicio" max="9999-12-31" id="data_inicio" value="{{estagio.data_inicio}}" type="date">
+               <input name="data_inicio" max="9999-12-31" id="data_inicio" value="{{estagio.data_inicio}}" type="date" required>
                <label for="">Data inicio</label>
             </div>
             <div class="inputbox" id="datas">
-               <input name="data_fim" max="9999-12-31" id="data_fim" value="{{estagio.data_fim}}" type="date">
+               <input name="data_fim" max="9999-12-31" id="data_fim" value="{{estagio.data_fim}}" type="date" required>
                <label for="">Data fim</label>
             </div>
             <div class="inputbox">
@@ -90,4 +95,5 @@
 
 {% block js %}
 <script src="../../static/js/Novo_estagio.js"></script>
+<script src="../../static/js/aviso_existente.js"></script>
 {% endblock %}
