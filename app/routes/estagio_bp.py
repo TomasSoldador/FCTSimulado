@@ -36,71 +36,21 @@ def get_alunos():
       for estagio in estagios:
          aluno = session.query(Alunos).filter_by(id=estagio.alunoId).first()
          entidade = session.query(Entidade).filter_by(id=estagio.entidadeId).first()
-         estagios_json.append({'id': estagio.id, 'aluno': aluno.nome, 'entidade': entidade.nome, 'data_inicio': str(estagio.data_inicio.strftime('%d-%m-%Y')), 'data_fim': str(estagio.data_fim.strftime('%d-%m-%Y'))})
+         estagios_json.append({'id': estagio.id, 'nome_abreviado': aluno.nome_abreviado, 'entidade': entidade.nome, 'data_inicio': str(estagio.data_inicio.strftime('%d-%m-%Y')), 'data_fim': str(estagio.data_fim.strftime('%d-%m-%Y'))})
    return jsonify(estagios_json)
-
-
-
-@estagio_bp.route('/Novo_Estagio', methods=["POST", "GET"])
-def novo_estagios():
-   turmas = session.query(Turmas).all()
-   entidade = session.query(Entidade).all()
-   alunos = session.query(Alunos).all()
-   if request.method == 'POST':
-      selected_aluno = request.form['alunos']
-      entidades_selecionada = request.form['entidades']
-      data_inicio = request.form['data_inicio']
-      data_fim = request.form['data_fim']
-      morada = request.form['morada']
-      cod_postal = request.form['cod_postal']
-      localidade = request.form['localidade']
-      cod_postal = cod_postal + " " + localidade
-      tutor = request.form['Tutor']
-      email_tutor = request.form['EmailTutor']
-      orientador = request.form['Orintador']
-      entidades_selecionada = session.query(Entidade).filter_by(nome=entidades_selecionada).first()
-      entidadeId = entidades_selecionada.id
-
-      estagio_existente = session.query(Estagios).filter(
-         (
-            (Estagios.alunoId == selected_aluno)
-         )
-      ).first()
-
-      if estagio_existente or selected_aluno == "nenhum":
-         if selected_aluno == "nenhum":
-            mensagem = f'Selecione um aluno'
-         elif estagio_existente:
-            mensagem = f'Este {selected_aluno}, já esta num estagio'
-         
-         return render_template('templates_estagios/novo_estagio.html', mensagem=mensagem, turmas=turmas, entidade=entidade, alunos=alunos)
-
-      p = Estagios(
-         alunoId=selected_aluno, 
-         entidadeId=entidadeId, 
-         data_inicio=data_inicio, 
-         data_fim=data_fim,
-         morada=morada, 
-         cod_postal=cod_postal, 
-         tutor=tutor,
-         email_tutor=email_tutor, 
-         orientador=orientador
-      )
-
-      session.add(p)
-      session.commit()
-      return redirect(url_for('Blueprint_estagio.tabela_estagios'))
-   return render_template('templates_estagios/novo_estagio.html', turmas=turmas, entidade=entidade, alunos=alunos)
 
 @estagio_bp.route('/get_options', methods=['GET', "POST"])
 def get_options():
    turma = session.query(Turmas).first()
    if request.method == "POST" and request.json.get("selected_value"):
       selected_value = request.json.get("selected_value")
-      turma = session.query(Turmas).filter_by(
-            descricao=selected_value).first()
-      id_turma = turma.id
-      alunos = session.query(Alunos).filter_by(turmaId=id_turma).all()
+      if(selected_value == "nenhum"):
+         alunos = session.query(Alunos).all()
+      else:
+         turma = session.query(Turmas).filter_by(
+               descricao=selected_value).first()
+         id_turma = turma.id
+         alunos = session.query(Alunos).filter_by(turmaId=id_turma).all()
    return jsonify([{'id': aluno.id, 'nome': aluno.nome_abreviado} for aluno in alunos])
 
 @estagio_bp.route('/get_info_entidade', methods=['GET', 'POST'])
@@ -112,6 +62,65 @@ def get_info_entidade():
    return jsonify({'morada': str(entidade.morada), 'cod_postal': str(codigo_postal), 'localidade': str(localidade)})
 
 
+
+@estagio_bp.route('/Novo_Estagio', methods=["POST", "GET"])
+def novo_estagios():
+   turmas = session.query(Turmas).all()
+   entidade = session.query(Entidade).all()
+   alunos = session.query(Alunos).all()
+   if request.method == 'POST':
+      arr=[]
+      selected_aluno = request.form['alunos']
+      entidades_selecionada = request.form['entidades']
+      data_inicio = request.form['data_inicio']
+      data_fim = request.form['data_fim']
+      morada = request.form['morada']
+      cod_postal = request.form['cod_postal']
+      localidade = request.form['localidade']
+      cod_postal = cod_postal + " " + localidade
+      tutor = request.form['Tutor']
+      email_tutor = request.form['EmailTutor']
+      orientador = request.form['Orintador']
+
+
+      estagio_existente = session.query(Estagios).filter(
+         (
+            (Estagios.alunoId == selected_aluno)
+         )
+      ).first()
+
+      if estagio_existente or selected_aluno == "nenhum" or entidades_selecionada == "nada":
+         if selected_aluno == "nenhum":
+            arr.append(f'Selecione um aluno')
+         elif estagio_existente:
+            name = session.query(Alunos).filter_by(id = selected_aluno).first()
+            arr.append(f'O aluno: {name.nome_abreviado}, já esta num estagio')
+         elif entidades_selecionada == "nada":
+            arr.append(f'Selecione uma entidade')
+         
+      else:
+         arr.append("0")
+         entidades_selecionada = session.query(Entidade).filter_by(nome=entidades_selecionada).first()
+         p = Estagios(
+            alunoId=selected_aluno,
+            entidadeId=entidades_selecionada.id,
+            data_inicio=data_inicio, 
+            data_fim=data_fim,
+            morada=morada, 
+            cod_postal=cod_postal, 
+            tutor=tutor,
+            email_tutor=email_tutor, 
+            orientador=orientador
+         )
+
+         session.add(p)
+         session.commit()
+      return jsonify(arr)
+   return render_template('templates_estagios/novo_estagio.html', turmas=turmas, entidade=entidade, alunos=alunos)
+
+
+
+
 @estagio_bp.route('/Editar_Estagio/<int:estagio_id>', methods=["POST", "GET"])
 def editar_estagios(estagio_id):
    turmas = session.query(Turmas).all()
@@ -119,7 +128,9 @@ def editar_estagios(estagio_id):
    alunos = session.query(Alunos).all()
    estagio = session.query(Estagios).get(estagio_id)
    if request.method == 'POST':
+      arr=[]
       alunoId = request.form['alunos']
+      entidades = request.form['entidades']
 
       estagio_existente = session.query(Estagios).filter(
          (Estagios.id != estagio_id) &
@@ -128,30 +139,31 @@ def editar_estagios(estagio_id):
          )
       ).first()
 
-      if estagio_existente or alunoId == "nenhum":
+      if estagio_existente or alunoId == "nenhum" or entidades == "nada":
          if alunoId == "nenhum":
-            mensagem = f'Selecione um aluno'
+            arr.append(f'Selecione um aluno')
          elif estagio_existente:
-            mensagem = f'Este {alunoId}, já esta num estagio'
+            name = session.query(Alunos).filter_by(id = alunoId).first()
+            arr.append(f'O aluno: {name.nome_abreviado}, já esta num estagio')
+         elif entidades == "nada":
+            arr.append(f'Selecione uma entidade')
          
-         return render_template('templates_estagios/editar_estagio.html', mensagem=mensagem, estagio=estagio, turmas=turmas, entidade=entidade)
-
-
-      estagio.alunoId = alunoId
-      estagio.data_inicio = request.form['data_inicio']
-      estagio.data_fim = request.form['data_fim']
-      estagio.morada = request.form['morada']
-      cod_postal = request.form['cod_postal']
-      localidade = request.form['localidade']
-      estagio.cod_postal = cod_postal + " " + localidade
-      estagio.tutor = request.form['Tutor']
-      estagio.email_tutor = request.form['EmailTutor']
-      estagio.orientador = request.form['Orintador']
-      entidades = request.form['entidades']
-      entidade = session.query(Entidade).filter_by(nome=entidades).first()
-      estagio.entidadeId = entidade.id
-      session.commit()
-      return redirect(url_for('Blueprint_estagio.tabela_estagios'))
+      else:
+         arr.append("0")
+         estagio.alunoId = alunoId
+         estagio.data_inicio = request.form['data_inicio']
+         estagio.data_fim = request.form['data_fim']
+         estagio.morada = request.form['morada']
+         cod_postal = request.form['cod_postal']
+         localidade = request.form['localidade']
+         estagio.cod_postal = cod_postal + " " + localidade
+         estagio.tutor = request.form['Tutor']
+         estagio.email_tutor = request.form['EmailTutor']
+         estagio.orientador = request.form['Orintador']
+         entidade = session.query(Entidade).filter_by(nome=entidades).first()
+         estagio.entidadeId = entidade.id
+         session.commit()
+      return jsonify(arr)
    localidade = estagio.cod_postal[9:]
    codigoPostal = estagio.cod_postal[:8]
    return render_template('templates_estagios/editar_estagio.html', estagio=estagio, turmas=turmas, entidade=entidade, id_entidade=estagio.entidadeId, alunos=alunos, id_alunos=estagio.alunoId,  localidade=localidade, codigoPostal=codigoPostal)

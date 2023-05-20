@@ -7,13 +7,8 @@
 {% block content %}
 <div class="container">
    <section>
-      {% if mensagem %}
-         <div id="mensagem" class="alert alert-warning escondido" role="alert">
-            {{ mensagem }}
-         </div>
-      {% endif %}
       <div class="form-box">
-         <form action="{{ url_for('Blueprint_entidade.editar_entidade', entidades_id=entidade.id) }}" method="POST">
+         <form id="forms" entidades_id="{{ entidade.id }}" method="POST">
             <input name="form_type" value="escolha2" style="display: none;">
             <div class="inputbox">
                <input name=Nome type="text" maxlength="100" value="{{entidade.nome}}" required>
@@ -63,5 +58,5 @@
 {% block js %}
 <script src="../../static/js/codigopostal.js"></script>
 <script src="../../static/js/limites.js"></script>
-<script src="../../static/js/aviso_existente.js"></script>
+<script src="../../static/js/entidades/Editar_entidade.js"></script>
 {% endblock %}

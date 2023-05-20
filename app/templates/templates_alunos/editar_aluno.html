@@ -7,13 +7,8 @@
 {% block content %}
 <div class="conteiner">
    <section>
-      {% if mensagem %}
-         <div id="mensagem" class="alert alert-warning escondido" role="alert">
-            {{ mensagem }}
-         </div>
-      {% endif %}
       <div class="form-box">
-         <form action="{{ url_for('Blueprint_aluno.editar_alunos', aluno_id=aluno.id) }}" method="POST">
+         <form id="forms" aluno_id="{{ aluno.id }}" method="POST">
             <input name="form_type" value="escolha2" style="display: none;">
             <div class="combo-box">
                <label>Turma</label>
@@ -90,5 +85,5 @@
 {% block js %}
 <script src="../../static/js/codigopostal.js"></script>
 <script src="../../static/js/limites.js"></script>
-<script src="../../static/js/aviso_existente.js"></script>
+<script src="../../static/js/alunos/Editar_aluno.js"></script>
 {% endblock %}

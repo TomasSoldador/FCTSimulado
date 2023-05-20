@@ -7,13 +7,8 @@
 {% block content %}
 <div class="conteiner">
    <section>
-      {% if mensagem %}
-         <div id="mensagem" class="alert alert-warning escondido" role="alert">
-            {{ mensagem }}
-         </div>
-      {% endif %}
       <div class="form-box">
-            <form action="{{ url_for('Blueprint_turma.editar_turma', turma_id=turma.id) }}" method="POST">
+            <form id="forms" turma_id="{{ turma.id }}" method="POST">
                <div class="inputbox">
                   <input name="turma" type="number" maxlength="20" value="{{numero}}" required>
                   <label for="">Turma:</label>
@@ -33,5 +28,5 @@
 {% endblock %}
 
 {% block js %}
-<script src="../../static/js/aviso_existente.js"></script>
+<script src="../../static/js/turmas/Editar_turma.js"></script>
 {% endblock %}

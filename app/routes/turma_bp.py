@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, jsonify, render_template, redirect, url_for, request
 from ..data_base import session, Turmas, Alunos, Estagios
 
 turma_bp = Blueprint('Blueprint_turma', __name__)
@@ -10,10 +10,6 @@ def lista_todas_turmas():
 
 def get_turma_por_id(turma_id):
    return session.query(Turmas).get(turma_id)
-
-
-def turma_existente(descricao_turma):
-   return session.query(Turmas).filter_by(descricao=descricao_turma).first() is not None
 
 
 def extrair_numero_descricao(descricao_turma):
@@ -50,32 +46,40 @@ def tabela_turmas():
 
 @turma_bp.route('/Nova_Turma', methods=["POST", "GET"])
 def nova_Turma():
-   mensagem = None
    if request.method == "POST":
+      arr=[]
       descricao_turma = f"Turma: {request.form['turma']}"
-      if not turma_existente(descricao_turma):
+      if not session.query(Turmas).filter_by(descricao=descricao_turma).first():
+         arr.append("0")
          criar_turma(descricao_turma)
-         return redirect(url_for('Blueprint_turma.tabela_turmas'))
       else:
-         mensagem = f"A {descricao_turma} já existe."
+         arr.append(f"A {descricao_turma} já existe.")
+      return jsonify(arr)
    turmas = lista_todas_turmas()
-   return render_template('templates_turmas/nova_turma.html', turmas=turmas, mensagem=mensagem)
+   return render_template('templates_turmas/nova_turma.html', turmas=turmas)
 
+
+def turma_existente(descricao_turma, turma_id):
+   turma = session.query(Turmas).filter_by(descricao=descricao_turma).first()
+   return turma is not None and turma.id != turma_id
 
 @turma_bp.route('/Editar_Turma/<int:turma_id>', methods=['GET', 'POST'])
 def editar_turma(turma_id):
    turma = get_turma_por_id(turma_id)
    if request.method == "POST":
+      arr = []
       descricao_turma = f"Turma: {request.form['turma']}"
-      if not turma_existente(descricao_turma):
+      if not turma_existente(descricao_turma, turma_id):
+         arr.append("0")
          atualizar_turma(turma, descricao_turma)
-         return redirect(url_for('Blueprint_turma.tabela_turmas'))
       else:
-         numero = extrair_numero_descricao(descricao_turma)
-         mensagem = f"A {descricao_turma} já existe."
-         return render_template('templates_turmas/editar_turma.html', turma=turma, numero=numero, mensagem=mensagem)
+         arr.append(f"A {descricao_turma} já existe.")
+      return jsonify(arr)
    numero = extrair_numero_descricao(turma.descricao)
    return render_template('templates_turmas/editar_turma.html', turma=turma, numero=numero)
+
+
+
 
 
 @turma_bp.route('/EliminarTurma/<int:turma_id>', methods=['GET', 'POST'])

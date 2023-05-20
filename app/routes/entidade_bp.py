@@ -1,8 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, jsonify, render_template, redirect, url_for, request
 from ..data_base import *
 
 entidade_bp = Blueprint('Blueprint_entidade', __name__)
-
 
 @entidade_bp.route('/Entidades')
 def tabela_entidades():
@@ -14,6 +13,7 @@ def tabela_entidades():
 @entidade_bp.route('/Nova_Entidade', methods=["POST", "GET"])
 def nova_entidade():
    if request.method == "POST":
+      arr=[]
       nome = request.form['Nome']
       morada = request.form['morada']
       cod_postal = request.form['cod_postal']
@@ -34,29 +34,26 @@ def nova_entidade():
 
       if entidade_existe:
          if entidade_existe.morada == morada:
-               mensagem = f'A morada {morada}, já existe'
+               arr.append(f'A morada {morada}, já existe')
          elif entidade_existe.nif == nif:
-               mensagem = f'O NIF {nif}, já existe'
+               arr.append(f'O NIF {nif}, já existe')
          elif entidade_existe.nome == nome:
-               mensagem = f'Esse nome da entidade: {nome}, ja esta registado'
+               arr.append(f'Esse nome da entidade: {nome}, ja esta registado')
          elif entidade_existe.cod_postal == cod_postal:
-               mensagem = f'O {cod_postal} ja existe'
-
-         return render_template('templates_entidades/nova_entidade.html', mensagem=mensagem)
-      
-      p = Entidade(
-         nome=nome, 
-         morada=morada, 
-         cod_postal=cod_postal, 
-         nif=nif,
-         pessoa_responsavel=pessoa_responsavel, 
-         cargo_pessoa_responsavel=cargo_pessoa_responsavel
-      )
-
-      session.add(p)
-      session.commit()
-      return redirect(url_for('Blueprint_entidade.tabela_entidades'))
-   
+               arr.append(f'O {cod_postal} ja existe')
+      else:
+         arr.append("0")
+         p = Entidade(
+            nome=nome, 
+            morada=morada, 
+            cod_postal=cod_postal, 
+            nif=nif,
+            pessoa_responsavel=pessoa_responsavel, 
+            cargo_pessoa_responsavel=cargo_pessoa_responsavel
+         )
+         session.add(p)
+         session.commit()
+      return jsonify(arr)
    return render_template('templates_entidades/nova_entidade.html')
 
 
@@ -65,6 +62,7 @@ def nova_entidade():
 def editar_entidade(entidades_id):
    entidade = session.query(Entidade).get(entidades_id)
    if request.method == 'POST':
+      arr=[]
       nome = request.form['Nome']
       morada = request.form['morada']
       cod_postal = request.form['cod_postal']
@@ -84,34 +82,27 @@ def editar_entidade(entidades_id):
       ).first()
 
       if entidade_existe:
-         mensagem = "os seguintes atributos ja existem: "
-         if entidade_existe.nome == nome:
-            mensagem = f'O nif {nome}, já existe'
          if entidade_existe.morada == morada:
-            mensagem = f'O nif {morada}, já existe'
-         if entidade_existe.cod_postal == cod_postal:
-            mensagem = f'O nif {cod_postal}, já existe'
-         if entidade_existe.nif == nif:
-            mensagem = f'O nif {nif}, já existe'
-
-         localidade = entidade.cod_postal[9:]
-         codigoPostal = entidade.cod_postal[:8]
-         
-         return render_template('templates_entidades/editar_entidade.html', entidade=entidade, localidade=localidade, codigoPostal=codigoPostal, mensagem=mensagem)
-      
-      entidade.nome = nome
-      entidade.morada = morada
-      entidade.cod_postal = cod_postal + " " + localidade
-      entidade.nif = nif
-      entidade.pessoa_responsavel = pessoa_responsavel
-      entidade.cargo_pessoa_responsavel = cargo_pessoa_responsavel
-
-      session.commit()
-      return redirect(url_for('Blueprint_entidade.tabela_entidades'))
+               arr.append(f'A morada {morada}, já existe')
+         elif entidade_existe.nif == nif:
+               arr.append(f'O NIF {nif}, já existe')
+         elif entidade_existe.nome == nome:
+               arr.append(f'Esse nome da entidade: {nome}, ja esta registado')
+         elif entidade_existe.cod_postal == cod_postal:
+               arr.append(f'O {cod_postal} ja existe')
+      else:
+         arr.append("0")
+         entidade.nome = nome
+         entidade.morada = morada
+         entidade.cod_postal = cod_postal + " " + localidade
+         entidade.nif = nif
+         entidade.pessoa_responsavel = pessoa_responsavel
+         entidade.cargo_pessoa_responsavel = cargo_pessoa_responsavel
+         session.commit()
+      return jsonify(arr)
 
    localidade = entidade.cod_postal[9:]
    codigoPostal = entidade.cod_postal[:8]
-   print(localidade)
    return render_template('templates_entidades/editar_entidade.html', entidade=entidade, localidade=localidade, codigoPostal=codigoPostal)
 
 

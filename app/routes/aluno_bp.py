@@ -37,6 +37,7 @@ def get_alunos():
 @aluno_bp.route('/Novo_Aluno', methods=["POST", "GET"])
 def novo_aluno():
    if request.method == 'POST':
+      arr = []
       turmas = request.form['turmas']
       numero = f"L{request.form['numero']}"
       Nome = request.form['Nome']
@@ -59,27 +60,27 @@ def novo_aluno():
       
       if aluno_existente:
          if aluno_existente.cartao_cidadao == cartao_cidadao:
-               mensagem = f'O cartão de cidadão {cartao_cidadao}, já existe'
+               arr.append(f'O cartão de cidadão {cartao_cidadao}, já existe')
          elif aluno_existente.nif == nif:
-               mensagem = f'O NIF {nif}, já existe'
+               arr.append(f'O NIF {nif}, já existe')
          elif aluno_existente.nr == numero:
-               mensagem = f'O aluno número {numero}, já existe'
-         turmas = session.query(Turmas).all()
-         return render_template('templates_alunos/novo_aluno.html', turmas=turmas, mensagem=mensagem)
-      novo_aluno = Alunos(
-         nr=numero,
-         nome=Nome,
-         nome_abreviado=Nome_Abreviado,
-         morada=morada,
-         cod_postal=codigo_postal,
-         cartao_cidadao=cartao_cidadao,
-         validade_cc=validade_cc,
-         nif=nif)
-      turma = session.query(Turmas).filter_by(descricao=turmas).first()
-      novo_aluno.turmaId = turma.id
-      session.add(novo_aluno)
-      session.commit()
-      return redirect(url_for('Blueprint_aluno.tabela_alunos'))
+               arr.append(f'O aluno número {numero}, já existe')
+      else:
+         arr.append("0")
+         novo_aluno = Alunos(
+            nr=numero,
+            nome=Nome,
+            nome_abreviado=Nome_Abreviado,
+            morada=morada,
+            cod_postal=codigo_postal,
+            cartao_cidadao=cartao_cidadao,
+            validade_cc=validade_cc,
+            nif=nif)
+         turma = session.query(Turmas).filter_by(descricao=turmas).first()
+         novo_aluno.turmaId = turma.id
+         session.add(novo_aluno)
+         session.commit()
+      return jsonify(arr)
    turmas = (session.query(Turmas).all())
    return render_template('templates_alunos/novo_aluno.html', turmas=turmas)
 
@@ -88,6 +89,7 @@ def novo_aluno():
 def editar_alunos(aluno_id):
    aluno = session.query(Alunos).get(aluno_id)
    if request.method == 'POST':
+      arr=[]
       turmas = request.form['turmas']
       numero = f"L{request.form['numero']}"
       cartao_cidadao = request.form['cartao_cidadao']
@@ -105,33 +107,31 @@ def editar_alunos(aluno_id):
 
       if aluno_existe:
          if aluno_existe.cartao_cidadao == cartao_cidadao:
-            mensagem = f'O cartão de cidadão {cartao_cidadao}, já existe'
+            arr.append(f'O cartão de cidadão {cartao_cidadao}, já existe')
          elif aluno_existe.nif == nif:
-            mensagem = f'O NIF {nif}, já existe'
+            arr.append(f'O NIF {nif}, já existe')
          else:
-            mensagem = f'O aluno número {numero}, já existe'
+            arr.append(f'O aluno número {numero}, já existe')
          turmas = session.query(Turmas).all()
          turmaEdit = session.query(Turmas).filter_by(
                id=aluno.turmaId).first().descricao
-         localidade = aluno.cod_postal[9:]
-         codigoPostal = aluno.cod_postal[:8]
-         return render_template('Pasta_Alunos/editar_aluno.html', turmas=turmas, aluno=aluno, numero=aluno.nr[1:], turmaEdit=turmaEdit, localidade=localidade, codigoPostal=codigoPostal, mensagem=mensagem)
-      aluno.nr = numero
-      aluno.nome = request.form['Nome']  
-      aluno.nome_abreviado = request.form['Nome_Abreviado']
-      aluno.morada = request.form['morada']
-      aluno.cod_postal = codigo_postal
-      aluno.cartao_cidadao = cartao_cidadao
-      aluno.validade_cc = request.form['validade_cc']
-      aluno.nif = nif
-      turma = session.query(Turmas).filter_by(descricao=turmas).first()
-      aluno.turmaId = turma.id
-      session.commit()
-      return redirect(url_for('Blueprint_aluno.tabela_alunos'))
+      else:
+         arr.append("0")
+         aluno.nr = numero
+         aluno.nome = request.form['Nome']  
+         aluno.nome_abreviado = request.form['Nome_Abreviado']
+         aluno.morada = request.form['morada']
+         aluno.cod_postal = codigo_postal
+         aluno.cartao_cidadao = cartao_cidadao
+         aluno.validade_cc = request.form['validade_cc']
+         aluno.nif = nif
+         turma = session.query(Turmas).filter_by(descricao=turmas).first()
+         aluno.turmaId = turma.id
+         session.commit()
+      return jsonify(arr)
    turmas = session.query(Turmas).all()
    turmaEdit = session.query(Turmas).filter_by(
       id=aluno.turmaId).first().descricao
-   print(turmaEdit)
    localidade = aluno.cod_postal[9:]
    codigoPostal = aluno.cod_postal[:8]
    return render_template('templates_alunos/editar_aluno.html', turmas=turmas, aluno=aluno, numero=aluno.nr[1:], turmaEdit=turmaEdit, localidade=localidade, codigoPostal=codigoPostal)

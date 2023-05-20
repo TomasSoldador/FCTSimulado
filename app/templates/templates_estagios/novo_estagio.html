@@ -7,13 +7,8 @@
 {% block content %}
 <div class="container">
    <section>
-      {% if mensagem %}
-         <div id="mensagem" class="alert alert-warning escondido" role="alert">
-            {{ mensagem }}
-         </div>
-      {% endif %}
       <div class="form-box">
-         <form action="{{ url_for('Blueprint_estagio.novo_estagios') }}" method="POST">
+         <form id="forms" method="POST">
             <div class="combo-box">
                <label>Turma</label>
                <select name="turma" id="combo_box_turma">
@@ -34,7 +29,7 @@
                <label>Entidade</label>
                <select name="entidades" id="combo_box_entidade">
                   {% if entidade|length == 0 %}
-                  <option>Não há Entidades</option>
+                  <option value="nada">Não há Entidades</option>
                   {% else %}
                   {% for listaentidade in entidade %}
                   <option value="{{listaentidade.nome}}"> {{listaentidade.nome}} </option>
@@ -90,6 +85,5 @@
 {% endblock %}
 
 {% block js %}
-<script src="../../static/js/Novo_estagio.js"></script>
-<script src="../../static/js/aviso_existente.js"></script>
+<script src="../../static/js/estagios/Novo_estagio.js"></script>
 {% endblock %}

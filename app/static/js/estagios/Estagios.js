@@ -30,7 +30,7 @@ function carregar_alunos(selectedValue) {
             $('#frase').hide();
             $.each(response, function (index, estagio) {
                var linha = $('<tr>');
-               linha.append($('<td data-label="Aluno">').text(estagio.aluno));
+               linha.append($('<td data-label="Aluno">').text(estagio.nome_abreviado));
                linha.append($('<td data-label="Entidade">').text(estagio.entidade));
                linha.append($('<td data-label="Data inicio">').text(estagio.data_inicio));
                linha.append($('<td data-label="Data fim">').text(estagio.data_fim));

@@ -13,7 +13,7 @@
          </div>
       {% endif %}
       <div class="form-box">
-         <form action="{{ url_for('Blueprint_estagio.editar_estagios', estagio_id=estagio.id) }}" method="POST">
+         <form id="forms" estagio_id="{{ estagio.id }}" method="POST">
             <div class="combo-box">
                <label>Turma</label>
                <select name="turma" id="combo_box_turma">
@@ -94,6 +94,5 @@
 {% endblock %}
 
 {% block js %}
-<script src="../../static/js/Novo_estagio.js"></script>
-<script src="../../static/js/aviso_existente.js"></script>
+<script src="../../static/js/estagios/Editar_estagio.js"></script>
 {% endblock %}
