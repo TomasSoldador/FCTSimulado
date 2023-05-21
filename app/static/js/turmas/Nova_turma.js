@@ -1,3 +1,20 @@
+let isToastVisible = false;
+
+function showCustomToast(mensagem) {
+   if (!isToastVisible) {
+      Toastify({
+         text: mensagem,
+         className: "custom-toastify",
+      }).showToast();
+
+      isToastVisible = true;
+
+      setTimeout(function() {
+         isToastVisible = false;
+      }, 3000);
+   }
+}
+
 $('#forms').submit(function(event) {
    event.preventDefault();
    var DataForms = $(this).serialize();
@@ -6,20 +23,10 @@ $('#forms').submit(function(event) {
       method: 'POST',
       data: DataForms,
       success: function(response) {
-         if(response[0] === "0"){
+         if (response[0] === "0") {
             window.location.href = "/Turmas";
-         }else{
-            mensagem = response[0]
-            //TODO:mudar para uma cor de aviso
-            Toastify({
-               text: mensagem,
-               duration : 3000,
-               position: "bottom-right",
-               stopOnFocus: true,
-               style: {
-                  background: "linear-gradient(to right, #00b09b, #96c93d)",
-               }
-            }).showToast();
+         } else {
+            showCustomToast(response[0]);
          }
       },
       error: function(xhr, status, error) {
@@ -27,3 +34,4 @@ $('#forms').submit(function(event) {
       }
    });
 });
+

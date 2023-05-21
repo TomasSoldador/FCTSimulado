@@ -19,7 +19,7 @@ def tabela_estagios():
       entidade = session.query(Entidade).filter_by(id=estagio.entidadeId).first()
       estagio.nome_entidade = entidade.nome
    return render_template('templates_estagios/estagios.html', estagios=estagios, entidade=entidade, turmas=turmas, alunos=alunos)
-
+  
 @estagio_bp.route('/get_estagios', methods=["POST", "GET"])
 def get_alunos():
    turma = session.query(Turmas).first()

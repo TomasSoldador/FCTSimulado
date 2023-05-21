@@ -87,6 +87,22 @@ select option {
    display: inline-block;
 }
 
+/* TODO: centralizar o toastify responsivamente  */
+.custom-toastify {
+   position: absolute;
+   z-index: 9;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background: linear-gradient(to right, #ff5f6d, #ffc371);
+   color: #fff;
+   padding: 15px;
+   border-radius: 5px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+   font-family: Arial, sans-serif;
+   margin-top: 150px;
+}
+
 .inputbox {
    position: relative;
    margin-top: 25px;
@@ -205,3 +221,7 @@ input[type=date]~label {
       width: 100%;
    }
 }
+
+
+
+
