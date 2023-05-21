@@ -23,7 +23,11 @@
             </div>
             <div class="combo-box">
                <label>Aluno</label>
-               <select name="alunos" id="combo_box_alunos"></select>
+               <select name="alunos" id="combo_box_alunos">
+                  {% if turmas|length == 0 %}
+                     <option>Não há Alunos</option>
+                  {% endif %}
+               </select>
             </div>
             <div class="combo-box">
                <label>Entidade</label>

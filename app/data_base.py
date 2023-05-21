@@ -1,6 +1,7 @@
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import SQLAlchemyError
 
 engine = create_engine("mysql+pymysql://root:@localhost:3306/estagiosdb", pool_pre_ping=True)
 

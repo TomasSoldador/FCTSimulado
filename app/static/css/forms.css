@@ -87,7 +87,6 @@ select option {
    display: inline-block;
 }
 
-/* TODO: centralizar o toastify responsivamente  */
 .custom-toastify {
    position: absolute;
    z-index: 9;

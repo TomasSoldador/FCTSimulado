@@ -17,11 +17,7 @@
                   <option>Não há turmas</option>
                   {% else %}
                   {% for listaturmas in turmas %}
-                  {% if listaturmas.descricao == turmaEdit %}
-                  <option value="{{listaturmas.descricao}}" selected> {{listaturmas.descricao}} </option>
-                  {% else %}
                   <option value="{{listaturmas.descricao}}"> {{listaturmas.descricao}} </option>
-                  {% endif %}
                   {% endfor %}
                   {% endif %}
                </select>
