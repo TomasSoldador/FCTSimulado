@@ -9,61 +9,69 @@
    <section>
       <div class="form-box">
          <form id="forms" aluno_id="{{ aluno.id }}" method="POST">
-            <input name="form_type" value="escolha2" style="display: none;">
-            <div class="combo-box">
-               <label>Turma</label>
-               <select name="turmas">
+            <div class="inputbox">
+               <select name="turmas" class="input">
                   {% if turmas|length == 0 %}
                   <option>Não há turmas</option>
-                  {% else %}
-                  {% for listaturmas in turmas %}
-                  <option value="{{listaturmas.descricao}}"> {{listaturmas.descricao}} </option>
-                  {% endfor %}
-                  {% endif %}
+                  {% else %} {% for listaturmas in turmas %}
+                  <option value="" disabled>Turma</option>
+                  <option value="{{listaturmas.descricao}}">
+                     {{listaturmas.descricao}}
+                  </option>
+                  {% endfor %} {% endif %}
                </select>
+               <div class="cut" id="cut_turmas"></div>
+               <label for="" class="placeholder">Turma:</label>
             </div>
+
             <div class="inputbox">
-               <input name=numero type="number" value="{{numero}}" max="999999" required
+               <input name=numero class="input" type="number" value="{{numero}}" max="999999" placeholder=" " required
                   oninvalid="this.setCustomValidity('Por favor, digite um número de até 6 dígitos.')"
                   oninput="limitarInput3(this)">
-               <label for="">Numero</label>
+               <div class="cut" id="cut_numero"></div>
+               <label for="" class="placeholder">Numero:</label>
             </div>
+
             <div class="inputbox">
-               <input name=Nome type="text" value="{{aluno.nome}}" maxlength="100" required>
-               <label for="">Nome</label>
+               <input name=Nome class="input" type="text" value="{{aluno.nome}}" maxlength="100" placeholder=" " required>
+               <div class="cut" id="cut_nome"></div>
+               <label for="" class="placeholder">Nome:</label>
             </div>
+
             <div class="inputbox">
-               <input name=Nome_Abreviado type="text" value="{{aluno.nome_abreviado}}" required>
-               <label for="">Nome Abreviado</label>
-            </div>
-            <div class="inputbox">
-               <input name=morada type="text" value="{{aluno.morada}}" required>
-               <label for="">Morada:</label>
+               <input name=morada class="input" type="text" value="{{aluno.morada}}" placeholder=" " required>
+               <div class="cut" id="cut_morada"></div>
+               <label for="" class="placeholder">Morada:</label>
             </div>
             <div class="inputbox" id="InputCodigoPostal">
-               <input name=codigo_postal type="text" value="{{codigoPostal}}" pattern="\d{4}-?\d{3}" maxlength="8"
+               <input name=codigo_postal class="input" type="text" value="{{codigoPostal}}" pattern="\d{4}-?\d{3}" maxlength="8" placeholder=" "
                   required title="Por favor, digite o codigo postal corretamente." oninput="formatar(this)">
-               <label for="">Codigo postal</label>
+               <div class="cut" id="cut_codigo_postal"></div>
+               <label for="" class="placeholder">Codigo postal:</label>
             </div>
             <div class="inputbox" id="InputLocalidade">
-               <input name=localidade type="text" value="{{localidade}}" required>
-               <label for="">Localidade</label>
+               <input name=localidade class="input" type="text" value="{{localidade}}" placeholder=" " required>
+               <div class="cut" id="cut_localidade"></div>
+               <label for="" class="placeholder">Localidade:</label>
             </div>
             <div class="inputbox">
-               <input name=cartao_cidadao min="00000000" value="{{aluno.cartao_cidadao}}" type="number" required
+               <input name=cartao_cidadao class="input" min="00000000" value="{{aluno.cartao_cidadao}}" type="number" placeholder=" " required
                   oninvalid="this.setCustomValidity('Por favor, digite um número de até 8 dígitos.')"
                   oninput="limitarInput(this)">
-               <label for="">Cartao cidadao</label>
+               <div class="cut" id="cut_cartao_cidadao"></div>
+               <label for="" class="placeholder">Cartao cidadao:</label>
             </div>
             <div class="inputbox">
-               <input name=validade_cc min="{{today}}" max="9999-12-31" value="{{aluno.validade_cc}}" type="date">
-               <label for="">Validade CC</label>
+               <input name=validade_cc class="input" min="{{today}}" max="9999-12-31" value="{{aluno.validade_cc}}" type="date">
+               <div class="cut" id="cut_validade_cc"></div>
+               <label for="" class="placeholder">Validade CC:</label>
             </div>
             <div class="inputbox">
-               <input name=nif min="1" max="999999999" type="number" value="{{aluno.nif}}" required
+               <input name=nif class="input" min="1" max="999999999" type="number" value="{{aluno.nif}}" placeholder=" " required
                   oninvalid="this.setCustomValidity('Por favor, digite um número de até 9 dígitos.')"
                   oninput="limitarInput2(this)">
-               <label for="">NIF</label>
+               <div class="cut" id="cut_nif"></div>
+               <label for="" class="placeholder">NIF:</label>
             </div>
             <div class="botoes">
                <div class="botao">

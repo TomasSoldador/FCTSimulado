@@ -10,35 +10,42 @@
       <div class="form-box">
          <form id="forms" method="POST">
             <div class="inputbox">
-               <input name=Nome type="text" maxlength="100" required>
-               <label for="">Nome</label>
+               <input name=Nome class="input" type="text" maxlength="100" placeholder=" " required>
+               <div class="cut" id="cut_nome"></div>
+               <label for="" class="placeholder">Nome:</label>
             </div>
             <div class="inputbox">
-               <input name=morada type="text" required>
-               <label for="">Morada</label>
+               <input name=morada class="input" type="text" placeholder=" " required>
+               <div class="cut" id="cut_morada"></div>
+               <label for="" class="placeholder">Morada:</label>
             </div>
             <div class="inputbox" id="InputCodigoPostal">
-               <input name=cod_postal type="text" pattern="\d{4}-?\d{3}" maxlength="8" required
+               <input name=cod_postal class="input" type="text" pattern="\d{4}-?\d{3}" maxlength="8" placeholder=" " required
                   title="Por favor, digite o codigo postal corretamente." oninput="formatar(this)">
-               <label for="">Codigo postal</label>
+               <div class="cut" id="cut_codigo_postal"></div>
+               <label for="" class="placeholder">Codigo postal:</label>
             </div>
             <div class="inputbox" id="InputLocalidade">
-               <input name=localidade type="text" required>
-               <label for="">Localidade</label>
+               <input name=localidade class="input" type="text" placeholder=" " required>
+               <div class="cut" id="cut_localidade"></div>
+               <label for="" class="placeholder">Localidade:</label>
             </div>
             <div class="inputbox">
-               <input name=nif min="000000000" max="999999999" type="number" required
+               <input name=nif class="input" min="000000000" max="999999999" type="number" placeholder=" " required
                   oninvalid="this.setCustomValidity('Por favor, digite um número de até 9 dígitos.')"
                   oninput="limitarInput2(this)">
-               <label for="">NIF</label>
+               <div class="cut" id="cut_nif"></div>
+               <label for="" class="placeholder">NIF:</label>
             </div>
             <div class="inputbox">
-               <input name=pessoa_responsavel type="text" required>
-               <label for="">Pessoa responsavel</label>
+               <input name=pessoa_responsavel class="input" type="text" placeholder=" " required>
+               <div class="cut" id="cut_pessoa_responsavel"></div>
+               <label for="" class="placeholder">Pessoa responsavel:</label>
             </div>
             <div class="inputbox">
-               <input name=cargo_pessoa_responsavel type="text" required>
-               <label for="">Cargo pessoa responsavel</label>
+               <input name=cargo_pessoa_responsavel class="input" type="text" placeholder=" " required>
+               <div class="cut" id="cut_cargo_pessoa_responsavel"></div>
+               <label for="" class="placeholder">Cargo pessoa responsavel:</label>
             </div>
             <div class="botoes">
                <div class="botao">

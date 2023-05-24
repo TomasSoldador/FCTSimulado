@@ -9,38 +9,44 @@
    <section>
       <div class="form-box">
          <form id="forms" entidades_id="{{ entidade.id }}" method="POST">
-            <input name="form_type" value="escolha2" style="display: none;">
             <div class="inputbox">
-               <input name=Nome type="text" maxlength="100" value="{{entidade.nome}}" required>
-               <label for="">Nome</label>
+               <input name=Nome class="input" type="text" maxlength="100" value="{{entidade.nome}}" placeholder=" " required>
+               <div class="cut" id="cut_nome"></div>
+               <label for="" class="placeholder">Nome:</label>
             </div>
             <div class="inputbox">
-               <input name=morada type="text" value="{{entidade.morada}}" required>
-               <label for="">Morada</label>
+               <input name=morada class="input" type="text" value="{{entidade.morada}}" placeholder=" " required>
+               <div class="cut" id="cut_morada"></div>
+               <label for="" class="placeholder">Morada:</label>
             </div>
             <div class="inputbox" id="InputCodigoPostal">
-               <input name=cod_postal type="text" pattern="\d{4}-?\d{3}" maxlength="8" value="{{codigoPostal}}"
+               <input name=cod_postal class="input" type="text" pattern="\d{4}-?\d{3}" maxlength="8" value="{{codigoPostal}}" placeholder=" "
                   required title="Por favor, digite o codigo postal corretamente." oninput="formatar(this)">
-               <label for="">Codigo postal</label>
+               <div class="cut" id="cut_codigo_postal"></div>
+               <label for="" class="placeholder">Codigo postal:</label>
             </div>
             <div class="inputbox" id="InputLocalidade">
-               <input name=localidade type="text" value="{{localidade}}" required>
-               <label for="">Localidade</label>
+               <input name=localidade class="input" type="text" value="{{localidade}}" placeholder=" " required>
+               <div class="cut" id="cut_localidade"></div>
+               <label for="" class="placeholder">Localidade:</label>
             </div>
             <div class="inputbox">
-               <input name=nif min="000000000" max="999999999" type="number" value="{{entidade.nif}}" required
+               <input name=nif class="input" min="000000000" max="999999999" type="number" value="{{entidade.nif}}" placeholder=" " required
                   oninvalid="this.setCustomValidity('Por favor, digite um número de até 9 dígitos.')"
                   oninput="limitarInput2(this)">
-               <label for="">NIF</label>
+               <div class="cut" id="cut_nif"></div>
+               <label for="" class="placeholder">NIF:</label>
             </div>
             <div class="inputbox">
-               <input name=pessoa_responsavel value="{{entidade.pessoa_responsavel}}" type="text" required>
-               <label for="">Pessoa responsavel</label>
+               <input name=pessoa_responsavel class="input" value="{{entidade.pessoa_responsavel}}" type="text" placeholder=" " required>
+               <div class="cut" id="cut_pessoa_responsavel"></div>
+               <label for="" class="placeholder">Pessoa responsavel:</label>
             </div>
             <div class="inputbox">
-               <input name=cargo_pessoa_responsavel value="{{entidade.cargo_pessoa_responsavel}}" type="text"
+               <input name=cargo_pessoa_responsavel class="input" value="{{entidade.cargo_pessoa_responsavel}}" type="text" placeholder=" "
                   required>
-               <label for="">Cargo pessoa responsavel</label>
+               <div class="cut" id="cut_cargo_pessoa_responsavel"></div>
+               <label for="" class="placeholder">Cargo pessoa responsavel:</label>
             </div>
             <div class="botoes">
                <div class="botao">

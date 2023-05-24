@@ -48,6 +48,7 @@ $(document).ready(function () {
             if (response.length == 0) {
                $('#combo_box_alunos').append('<option value="nenhum">Não há alunos</option>');
             } else {
+               $('#combo_box_alunos').append('<option value="" disabled>Alunos</option>');
                for (var i = 0; i < response.length; i++) {
                   var aluno = response[i];
                   $('#combo_box_alunos').append('<option value="' + aluno.id + '">' + aluno.nome + '</option>');

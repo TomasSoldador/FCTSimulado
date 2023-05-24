@@ -10,8 +10,9 @@
       <div class="form-box">
             <form id="forms" turma_id="{{ turma.id }}" method="POST">
                <div class="inputbox">
-                  <input name="turma" type="number" maxlength="20" value="{{numero}}" required>
-                  <label for="">Turma:</label>
+                  <input name="turma" type="number" class="input" maxlength="20" value="{{numero}}" placeholder= " " required>
+                  <div class="cut" id="cut_turmas"></div>
+                  <label for="" class="placeholder">Turma:</label>
                </div>
                <div class="botoes">
                   <div class="botao">

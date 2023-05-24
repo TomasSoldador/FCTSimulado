@@ -19,3 +19,7 @@ app.register_blueprint(docs_bp)
 app.debug = True
 if __name__ == '__main__':
    app.run()
+
+
+
+   # TODO: tirar o nome abreviado da base de dados e fazer com que apareça na tabela sem ir buscar a base de dados indo buscar ao nome completo
