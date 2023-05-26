@@ -18,54 +18,106 @@
 
 .button {
    display: inline-block;
-   padding: .6rem .9rem;
-   background: #0ef;
-   border-radius: 4rem;
-   box-shadow: 0 0 .5rem #0ef;
-   font-size: 1rem;
-   color: #323946;
-   letter-spacing: .1rem;
-   font-weight: 600;
-   transition: .5s ease;
+   border-radius: 25px;
+   background-color: #337ab7; /* Alterado para azul */
+   border: none;
+   color: #FFFFFF;
+   text-align: center;
+   font-size: 20px;
+   padding: 7px;
+   width: 200px;
+   transition: all 0.5s;
+   cursor: pointer;
+   margin: 5px;
    text-decoration: none;
 }
 
-.button:hover{
-   box-shadow: none;
+.button span {
+   cursor: pointer;
+   display: inline-block;
+   position: relative;
+   transition: 0.5s;
 }
 
-.combo-box {
+.button span:after {
+   content: '\00bb';
+   position: absolute;
+   opacity: 0;
+   top: 0;
+   right: -20px;
+   transition: 0.5s;
+}
+
+.button:hover span {
+   padding-right: 25px;
+}
+
+.button:hover span:after {
+   opacity: 1;
+   right: 0;
+}
+
+.inputbox {
    position: absolute;
    display: inline-block;
-   width: calc(29% - 10px);
    margin: -90px 30px;
-   
+   width: 100px !important;
+   height: 45px;
 }
 
-.combo-box label {
-   font-weight: bold;
-   margin-left: 4px;
-   color: #fff;
+.input {
+   background-color: #303245;
+   border-radius: 12px;
+   border: 0;
+   box-sizing: border-box;
+   color: #eee;
+   font-size: 18px;
+   height: 100%;
+   outline: 0;
+   padding: 4px 20px 0;
+   width: 100%;
 }
 
-.combo-box select {
-   border-bottom: 2px solid #fff;
-   width: auto;
-   cursor: pointer;
-   margin: 0 10px;
-   padding: 0.5rem;
-   background-color: transparent;
-   color: #fff;
-   font-size: 1rem;
-   line-height: 1.4;
-   -webkit-appearance: none;
-   -moz-appearance: none;
-   appearance: none;
-   border-radius: 5px;
+.cut {
+   background-color: #15172b;
+   border-radius: 10px;
+   height: 20px;
+   left: 20px;
+   position: absolute;
+   top: -20px;
+   transform: translateY(0);
+   transition: transform 200ms;
+   width: 56px;
 }
 
-select option {
-   color: black;
+.placeholder {
+   color: #65657b;
+   font-family: sans-serif;
+   left: 20px;
+   line-height: 14px;
+   pointer-events: none;
+   position: absolute;
+   transform-origin: 0 50%;
+   transition: transform 200ms, color 200ms;
+   top: 20px;
+}
+
+.input:focus ~ .cut,
+   .input:not(:placeholder-shown) ~ .cut {
+   transform: translateY(8px);
+}
+
+.input:focus ~ .placeholder,
+   .input:not(:placeholder-shown) ~ .placeholder {
+   transform: translateY(-30px) translateX(10px) scale(0.75);
+}
+
+.input:not(:placeholder-shown) ~ .placeholder {
+   color: #808097;
+}
+
+.input:focus ~ .placeholder {
+   color: #dc2f55;
 }
 
 table {
@@ -171,7 +223,7 @@ table tr:last-child {
       justify-content: center;
       margin-top: -30px;
    }
-   .combo-box {
+   .inputbox {
       display: flex;
       align-items: center;
       justify-content: center;

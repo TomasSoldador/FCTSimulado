@@ -15,13 +15,15 @@
    <div class="botao_com_tabela">
       <a href="Novo_Estagio" class="button"><ion-icon name="person-add-outline" id="icons"></ion-icon><span>Novo Estagio</span></a>
    </div>
-   <div class="combo-box" style="width: 300px !important;">
-      <label>Turma:</label>
-      <select name="turmas" id="combobox">
+   <div class="inputbox">
+      <select name="turmas" class="input" id="combobox">
+         <option value="" disabled>Turma</option>
          {% for listaturmas in turmas %}
          <option value="{{listaturmas.descricao}}"> {{listaturmas.descricao.split(':')[1].strip()}} </option>
          {% endfor %}
       </select>
+      <div class="cut"></div>
+      <label for="" class="placeholder">Turma:</label>
    </div>
    <p id= "frase">Não ha estagios nesta turma</p>
    <div class="conteudo">

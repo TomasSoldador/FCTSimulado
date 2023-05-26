@@ -21,6 +21,7 @@ block css %}
                <div class="cut" id="cut_turmas"></div>
                <label for="" class="placeholder">Turma:</label>
             </div>
+            
             <div class="inputbox">
                <!-- //TODO: ver o porque destes nomes n terem aspas -->
                <input name="numero" type="number" class="input" max="999999" placeholder=" " required
@@ -70,10 +71,10 @@ block css %}
             </div>
             <div class="botoes">
                <div class="botao">
-                  <button class="button" type="submit" value="submit">Gravar</button>
+                  <a href="{{ url_for('Blueprint_aluno.tabela_alunos') }}" class="button_cancelar"><span>Cancelar</span></a>
                </div>
                <div class="botao">
-                  <a href="{{ url_for('Blueprint_aluno.tabela_alunos') }}" class="button">Cancelar</a>
+                  <button class="button" type="submit" value="submit"><span>Gravar</span></button>
                </div>
             </div>
          </form>
