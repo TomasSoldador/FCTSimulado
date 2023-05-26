@@ -56,7 +56,10 @@ def baixar(estagio_id):
       '[Número de Contribuinte Aluno]': aluno.nif,
       '[Morada Aluno]': aluno.morada,
       '[nome]': aluno.nome,
-      '[data]': str(date.today().strftime("%d-%m-%Y"))
+      '[data]': str(date.today().strftime("%d-%m-%Y")),
+      '[nome_entidade]': entidade.nome,
+      '[data_inicio]': estagio.data_inicio.strftime("%d/%m/%Y"),
+      '[data_fim]': estagio.data_fim.strftime("%d/%m/%Y")
    }
 
    # Cria o arquivo ZIP

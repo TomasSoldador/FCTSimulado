@@ -13,8 +13,9 @@
                <select name="turmas" class="input">
                   {% if turmas|length == 0 %}
                   <option>Não há turmas</option>
-                  {% else %} {% for listaturmas in turmas %}
+                  {% else %}
                   <option value="" disabled>Turma</option>
+                  {% for listaturmas in turmas %}
                   <option value="{{listaturmas.descricao}}">
                      {{listaturmas.descricao}}
                   </option>

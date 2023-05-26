@@ -21,6 +21,14 @@ def tabela_alunos():
       session.rollback()
       raise
 
+
+def obter_nome_abreviado(nome_completo):
+   partes_nome = nome_completo.split()
+   primeiro_nome = partes_nome[0]
+   ultimo_sobrenome = partes_nome[-1]
+   nome_abreviado = f"{primeiro_nome} {ultimo_sobrenome}"
+   return nome_abreviado
+
 @aluno_bp.route('/get_alunos', methods=["POST", "GET"])
 def get_alunos():
    try:
@@ -30,9 +38,25 @@ def get_alunos():
          selected_value = request.json.get("selected_value")
          turma = session.query(Turmas).filter_by(descricao=selected_value).first()
          alunos = session.query(Alunos).filter_by(turmaId=turma.id).all()
-      alunos_json = [{'id': aluno.id, 'turmaId': aluno.turmaId, 'nr': aluno.nr, 'nome': aluno.nome, 'nome_abreviado': aluno.nome_abreviado, 'morada': aluno.morada, 'cod_postal': aluno.cod_postal,
-                     'cartao_cidadao': aluno.cartao_cidadao, 'validade_cc': aluno.validade_cc, 'nif': aluno.nif} for aluno in alunos]  # converte a lista de alunos em uma lista de dicionários
-      return jsonify(alunos_json)
+
+         alunos_json = []
+         for aluno in alunos:
+            nome_abreviado = obter_nome_abreviado(aluno.nome)
+            aluno_dict = {
+                  'id': aluno.id,
+                  'turmaId': aluno.turmaId,
+                  'nr': aluno.nr,
+                  'nome': aluno.nome,
+                  'nome_abreviado': nome_abreviado,
+                  'morada': aluno.morada,
+                  'cod_postal': aluno.cod_postal,
+                  'cartao_cidadao': aluno.cartao_cidadao,
+                  'validade_cc': aluno.validade_cc,
+                  'nif': aluno.nif
+            }
+            alunos_json.append(aluno_dict)
+
+         return jsonify(alunos_json)
 
    except:
       session.rollback()
@@ -48,10 +72,6 @@ def novo_aluno():
          turmas = request.form['turmas']
          numero = f"L{request.form['numero']}"
          Nome = request.form['Nome']
-         lista_nomes = Nome.split()
-         primeiro_nome = lista_nomes[0]
-         ultimo_nome = lista_nomes[-1]
-         Nome_Abreviado = primeiro_nome + " " + ultimo_nome
          morada = request.form['morada']
          codigo_postal = request.form['codigo_postal']
          localidade = request.form['localidade']
@@ -77,7 +97,6 @@ def novo_aluno():
             novo_aluno = Alunos(
                nr=numero,
                nome=Nome,
-               nome_abreviado=Nome_Abreviado,
                morada=morada,
                cod_postal=codigo_postal,
                cartao_cidadao=cartao_cidadao,
@@ -131,8 +150,7 @@ def editar_alunos(aluno_id):
          else:
             arr.append("0")
             aluno.nr = numero
-            aluno.nome = request.form['Nome']  
-            aluno.nome_abreviado = request.form['Nome_Abreviado']
+            aluno.nome = request.form['Nome']
             aluno.morada = request.form['morada']
             aluno.cod_postal = codigo_postal
             aluno.cartao_cidadao = cartao_cidadao

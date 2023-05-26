@@ -15,7 +15,6 @@ create table alunos (
    Foreign Key (turmaId) REFERENCES turmas(id),
    nr varchar(7) not null,
    nome varchar(100) not null,
-   nome_abreviado VARCHAR(100) not NULL,
    morada varchar(500) not null,
    cod_postal varchar(40) not null,
    cartao_cidadao varchar(20) not null,

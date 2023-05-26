@@ -3,6 +3,14 @@ from ..data_base import session, Estagios, Entidade, Turmas, Alunos
 
 estagio_bp = Blueprint('Blueprint_estagio', __name__)
 
+
+def obter_nome_abreviado(nome_completo):
+   partes_nome = nome_completo.split()
+   primeiro_nome = partes_nome[0]
+   ultimo_sobrenome = partes_nome[-1]
+   nome_abreviado = f"{primeiro_nome} {ultimo_sobrenome}"
+   return nome_abreviado
+
 @estagio_bp.route('/')
 @estagio_bp.route('/Estagios')
 def tabela_estagios():
@@ -39,7 +47,7 @@ def get_alunos():
          for estagio in estagios:
             aluno = session.query(Alunos).filter_by(id=estagio.alunoId).first()
             entidade = session.query(Entidade).filter_by(id=estagio.entidadeId).first()
-            estagios_json.append({'id': estagio.id, 'nome_abreviado': aluno.nome_abreviado, 'entidade': entidade.nome, 'data_inicio': str(estagio.data_inicio.strftime('%d-%m-%Y')), 'data_fim': str(estagio.data_fim.strftime('%d-%m-%Y'))})
+            estagios_json.append({'id': estagio.id, 'nome_abreviado': obter_nome_abreviado(aluno.nome), 'entidade': entidade.nome, 'data_inicio': str(estagio.data_inicio.strftime('%d-%m-%Y')), 'data_fim': str(estagio.data_fim.strftime('%d-%m-%Y'))})
       return jsonify(estagios_json)
 
    except:
@@ -59,7 +67,7 @@ def get_options():
                   descricao=selected_value).first()
             id_turma = turma.id
             alunos = session.query(Alunos).filter_by(turmaId=id_turma).all()
-      return jsonify([{'id': aluno.id, 'nome': aluno.nome_abreviado} for aluno in alunos])
+      return jsonify([{'id': aluno.id, 'nome': obter_nome_abreviado(aluno.nome)} for aluno in alunos])
 
    except:
       session.rollback()
