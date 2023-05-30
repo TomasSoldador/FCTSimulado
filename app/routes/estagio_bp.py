@@ -1,3 +1,4 @@
+import re
 from flask import Blueprint, render_template, redirect, url_for, request, jsonify
 from ..data_base import session, Estagios, Entidade, Turmas, Alunos
 
@@ -10,6 +11,11 @@ def obter_nome_abreviado(nome_completo):
    ultimo_sobrenome = partes_nome[-1]
    nome_abreviado = f"{primeiro_nome} {ultimo_sobrenome}"
    return nome_abreviado
+
+# Função de verificação de email
+def verificar_email(email):
+   pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+   return re.match(pattern, email) is not None
 
 @estagio_bp.route('/')
 @estagio_bp.route('/Estagios')
@@ -108,6 +114,8 @@ def novo_estagios():
          email_tutor = request.form['EmailTutor']
          orientador = request.form['Orintador']
 
+         
+
          estagio_existente = session.query(Estagios).filter(Estagios.alunoId == selected_aluno).first()
 
          if estagio_existente or selected_aluno == "nenhum" or entidades_selecionada == "nada":
@@ -118,6 +126,8 @@ def novo_estagios():
                arr.append(f'O aluno: {name.nome_abreviado}, já está em um estágio')
             elif entidades_selecionada == "nada":
                arr.append(f'Selecione uma entidade')
+         elif not verificar_email(email_tutor):  # Verificar o email do tutor
+            arr.append("Email do tutor inválido")
          else:
             arr.append("0")
             entidades_selecionada = session.query(Entidade).filter_by(nome=entidades_selecionada).first()
@@ -145,7 +155,6 @@ def novo_estagios():
 
 
 
-
 @estagio_bp.route('/Editar_Estagio/<int:estagio_id>', methods=["POST", "GET"])
 def editar_estagios(estagio_id):
    try:
@@ -154,45 +163,54 @@ def editar_estagios(estagio_id):
       alunos = session.query(Alunos).all()
       estagio = session.query(Estagios).get(estagio_id)
       if request.method == 'POST':
-         arr=[]
+         arr = []
          alunoId = request.form['alunos']
          entidades = request.form['entidades']
 
          estagio_existente = session.query(Estagios).filter(
-            (Estagios.id != estagio_id) &
-            (
-               (Estagios.alunoId == alunoId)
-            )
+               (Estagios.id != estagio_id) &
+               (
+                  (Estagios.alunoId == alunoId)
+               )
          ).first()
 
          if estagio_existente or alunoId == "nenhum" or entidades == "nada":
-            if alunoId == "nenhum":
-               arr.append(f'Selecione um aluno')
-            elif estagio_existente:
-               name = session.query(Alunos).filter_by(id=alunoId).first()
-               arr.append(f'O aluno: {name.nome_abreviado}, já está em um estágio')
-            elif entidades == "nada":
-               arr.append(f'Selecione uma entidade')
-         
+               if alunoId == "nenhum":
+                  arr.append(f'Selecione um aluno')
+               elif estagio_existente:
+                  name = session.query(Alunos).filter_by(id=alunoId).first()
+                  arr.append(f'O aluno: {name.nome_abreviado}, já está em um estágio')
+               elif entidades == "nada":
+                  arr.append(f'Selecione uma entidade')
+
          else:
-            arr.append("0")
-            estagio.alunoId = alunoId
-            estagio.data_inicio = request.form['data_inicio']
-            estagio.data_fim = request.form['data_fim']
-            estagio.morada = request.form['morada']
-            cod_postal = request.form['cod_postal']
-            localidade = request.form['localidade']
-            estagio.cod_postal = cod_postal + " " + localidade
-            estagio.tutor = request.form['Tutor']
-            estagio.email_tutor = request.form['EmailTutor']
-            estagio.orientador = request.form['Orintador']
-            entidade = session.query(Entidade).filter_by(nome=entidades).first()
-            estagio.entidadeId = entidade.id
-            session.commit()
+               arr.append("0")
+               estagio.alunoId = alunoId
+               estagio.data_inicio = request.form['data_inicio']
+               estagio.data_fim = request.form['data_fim']
+               estagio.morada = request.form['morada']
+               cod_postal = request.form['cod_postal']
+               localidade = request.form['localidade']
+               estagio.cod_postal = cod_postal + " " + localidade
+               estagio.tutor = request.form['Tutor']
+               estagio.email_tutor = request.form['EmailTutor']
+               estagio.orientador = request.form['Orintador']
+
+               # Verificação do email do tutor
+               email_tutor = request.form['EmailTutor']
+               if not verificar_email(email_tutor):
+                  arr.append(f'O email do tutor é inválido.')
+
+               entidade = session.query(Entidade).filter_by(nome=entidades).first()
+               estagio.entidadeId = entidade.id
+               session.commit()
          return jsonify(arr)
+
       localidade = estagio.cod_postal[9:]
       codigoPostal = estagio.cod_postal[:8]
-      return render_template('templates_estagios/editar_estagio.html', estagio=estagio, turmas=turmas, entidade=entidade, id_entidade=estagio.entidadeId, alunos=alunos, id_alunos=estagio.alunoId,  localidade=localidade, codigoPostal=codigoPostal)
+      return render_template('templates_estagios/editar_estagio.html', estagio=estagio, turmas=turmas,
+                              entidade=entidade, id_entidade=estagio.entidadeId, alunos=alunos,
+                              id_alunos=estagio.alunoId, localidade=localidade, codigoPostal=codigoPostal)
 
    except:
       session.rollback()

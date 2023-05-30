@@ -1,6 +1,4 @@
 import os
-import shutil
-import time
 import zipfile
 from flask import Blueprint, redirect, send_file, url_for, after_this_request
 from ..data_base import *

@@ -57,10 +57,14 @@ def get_alunos():
             alunos_json.append(aluno_dict)
 
          return jsonify(alunos_json)
+      
+      # Retornar uma resposta vazia ou uma mensagem de erro caso a condição não seja atendida
+      return jsonify([])  # ou return jsonify({'error': 'Mensagem de erro'})
 
    except:
       session.rollback()
       raise
+
 
 
 
