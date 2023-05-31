@@ -16,7 +16,7 @@
                   {% else %}
                   <option value="" disabled>Turma</option>
                   {% for listaturmas in turmas %}
-                  <option value="{{listaturmas.descricao}}">
+                  <option value="{{listaturmas.descricao}}" {% if listaturmas.descricao == turmaEdit %} selected {% endif %}>
                      {{listaturmas.descricao}}
                   </option>
                   {% endfor %} {% endif %}

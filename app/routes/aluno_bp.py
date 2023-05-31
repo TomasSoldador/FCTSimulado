@@ -176,6 +176,7 @@ def editar_alunos(aluno_id):
       raise
 
 
+
 @aluno_bp.route('/EliminarAluno/<int:aluno_id>', methods=['GET', 'POST'])
 def eliminar_aluno(aluno_id):
    try:
