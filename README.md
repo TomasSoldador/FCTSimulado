@@ -1,19 +1,18 @@
-# Projeto do Curso de Técnico de Gestão e Programação de Sistemas Informáticos
+# Project for the Course of Systems Management and Programming Technician
 
-Este projeto tem como objetivo desenvolver um gerador de estágios para facilitar a criação de documentação necessária pelas escolas quando encontram estágios para seus alunos.
+This project aims to develop an internship generator to facilitate the creation of necessary documentation by schools when they find internships for their students.
 
-## Funcionalidades
+## Features
 
-Esta aplicação web possui quatro páginas principais:
+This web application has four main pages:
 
-- **Inserir Cursos:** Permite a inserção dos cursos oferecidos pela escola.
-- **Inserir Alunos:** Permite a inserção dos alunos de cada turma.
-- **Inserir Empresas:** Permite a inserção das empresas que oferecem estágios.
-- **Conectar Alunos a Estágios:** Nesta página, cada aluno é conectado automaticamente a um estágio com base nos dados inseridos anteriormente. Além disso, é possível fazer o download de todos os documentos necessários para serem assinados tanto pelas escolas quanto pelas empresas.
+- **Insert Courses:** Allows the insertion of courses offered by the school.
+- **Insert Students:** Allows the insertion of students in each class.
+- **Insert Companies:** Allows the insertion of companies offering internships.
+- **Connect Students to Internships:** On this page, each student is automatically connected to an internship based on previously entered data. Additionally, it is possible to download all the necessary documents to be signed by both the schools and the companies.
 
-## Tecnologias Utilizadas
+## Technologies Used
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Flask
-- **Banco de Dados:** MySQL
-
+- **Database:** MySQL
